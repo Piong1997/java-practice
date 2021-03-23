@@ -1,0 +1,34 @@
+https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/
+//1
+class Solution {
+    public ListNode getKthFromEnd(ListNode head, int k) {
+        int i=0;
+        for(ListNode p=head;p!=null;p=p.next){
+            i++;
+        }
+        int j=i-k;
+        ListNode p=head;
+        for(i=0;i<j;i++){
+            p=p.next;
+        }
+        return p;
+    }
+}
+//2 快慢指针
+public ListNode getKthFromEnd(ListNode head, int k) {
+        
+        ListNode frontNode = head, behindNode = head;
+        while (frontNode != null && k > 0) {
+
+            frontNode = frontNode.next;
+            k--;
+        }
+
+        while (frontNode != null) {
+
+            frontNode = frontNode.next;
+            behindNode = behindNode.next;
+        }
+
+        return behindNode;
+    }
