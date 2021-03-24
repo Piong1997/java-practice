@@ -32,3 +32,32 @@ class Solution {
         return newHead;
     }
 }
+//https://leetcode-cn.com/problems/swap-nodes-in-pairs/submissions/
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode swapPairs(ListNode head) {
+        ListNode p=head,t=head,h=head;
+        while(p!=null&&p.next!=null){
+            ListNode n=p.next,a=n.next;
+            n.next=p;
+            p.next=null;
+            if(p!=head){
+                t.next=n;
+            }else h=n;
+            t=p;
+            p=a;
+            if(p==null) break;//结尾处理
+            else if(p.next==null) t.next=p;
+        }
+        return h;
+    }
+}
