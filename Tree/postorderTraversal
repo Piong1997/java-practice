@@ -23,7 +23,7 @@ public static List<Integer> postorderTraversal(TreeNode1 root) {
             while(p!=null){
                 s.push(p);
                 p=p.leftChild;
-                pre=null;
+                //pre=null;
             }
             if(!s.empty()){
                 if(s.peek().rightChild==pre || s.peek().rightChild==null){//判断上一个节点是否为右子树或右子树为空，输出当前节点，返回上一级
