@@ -1,0 +1,42 @@
+public static void preOrderTraveralWithStack(TreeNode1 node){
+        Stack<TreeNode1> stack = new Stack<TreeNode1>();
+        TreeNode1 treeNode = node;
+        while(treeNode!=null || !stack.isEmpty()){
+            //迭代访问节点的左孩子，并入栈
+            while(treeNode != null){
+                System.out.print(treeNode.data+" ");
+                stack.push(treeNode);
+                treeNode = treeNode.leftChild;
+            }
+            //如果节点没有左孩子，则弹出栈顶节点，访问节点右孩子
+            if(!stack.isEmpty()){
+                treeNode = stack.pop();
+                treeNode = treeNode.rightChild;
+            }
+        }
+    }
+public static List<Integer> postorderTraversal(TreeNode1 root) {
+        Stack<TreeNode1> s=new Stack<TreeNode1>();
+        List<Integer> res=new ArrayList<>();
+        TreeNode1 p=root,pre=null;
+        while(p!=null || !s.empty()){
+            while(p!=null){
+                s.push(p);
+                p=p.leftChild;
+                pre=null;
+            }
+            if(!s.empty()){
+                if(s.peek().rightChild==pre || s.peek().rightChild==null){//判断上一个节点是否为右子树或右子树为空，输出当前节点，返回上一级
+                    p=s.pop();
+                    res.add(p.data);
+                    pre=p;
+                    p=null;//避免再进入左子树
+                }
+                else{ //上一个输出节点不是父节点的右子树，进入父节点右子树
+                    p=s.peek();
+                    p=p.rightChild;
+                }
+            }
+        }
+        return res;
+    }
