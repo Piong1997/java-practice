@@ -52,7 +52,7 @@ class Solution {
             p.next=null;
             if(p!=head){
                 t.next=n;
-            }else h=n;
+            }else h=n;//找到头节点！！
             t=p;
             p=a;
             if(p==null) break;//结尾处理
