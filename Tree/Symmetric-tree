@@ -1,0 +1,59 @@
+//不能利用中序遍历判断是否回文
+//利用层序遍历每一层判断是否回文 https://leetcode-cn.com/problems/symmetric-tree/submissions/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    static List<List<Integer>> l=new ArrayList<>();
+    public boolean isSymmetric(TreeNode root) {
+        return levelOrder(root);
+    }
+    public boolean levelOrder(TreeNode root){
+        Queue<TreeNode> q=new LinkedList();
+        q.offer(root);
+        int len=1;
+        TreeNode p = root;
+        TreeNode tadd = new TreeNode(-1,null,null);
+        while(len!=0){
+            List<Integer> temp=new ArrayList<>();
+            while(!q.isEmpty()){
+                p=q.poll();
+                temp.add(p.val);//存储一层的数据
+                len--;
+                if(p.left==null&&p!=tadd) p.left=tadd;//为所有叶子节点添加一个人工节点
+                if(p.right==null&&p!=tadd) p.right=tadd;
+                if(p.left!=null) q.offer(p.left);
+                if(p.right!=null) q.offer(p.right);
+                if(len==0){//判断某层是否回文
+                    l.add(temp);
+                    int tl=temp.size();
+                    if(p==root) ;
+                    else if(tl%2!=0) return false;
+                    else{
+                        for(int i=0;i<tl/2;i++){
+                            if(temp.get(i)==temp.get(tl-1-i))
+                                continue;
+                            else return false;
+                        }
+                    }
+                    temp.clear();
+                    len=q.size();
+                }
+                
+            }
+        }
+        return true;
+    }
+}
