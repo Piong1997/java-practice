@@ -1,0 +1,16 @@
+class Solution {
+    public int maxDepth(TreeNode root) {
+        if(root==null) return 0;
+        return depth(root);
+    }
+    public int depth(TreeNode p){
+        if(p.left==null&&p.right==null) return 1;
+        if(p.left==null) return 1+depth(p.right);
+        if(p.right==null) return 1+depth(p.left);
+        else return 1+max(depth(p.left),depth(p.right));
+    }
+    public int max(int a,int b){
+        if(a>=b) return a;
+        return b;
+    }
+}
