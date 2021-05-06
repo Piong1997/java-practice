@@ -57,3 +57,16 @@ class Solution {
         return true;
     }
 }
+
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        return cmp(root,root);
+    }
+    public static boolean cmp(TreeNode p,TreeNode q){
+        if(p==null||q==null)
+            if(p==q) return true;
+            else return false;
+        if(p.val!=q.val) return false;
+        return cmp(p.left,q.right)&&cmp(p.right,q.left);
+    }
+}
