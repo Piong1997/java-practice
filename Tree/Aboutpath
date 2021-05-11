@@ -1,0 +1,60 @@
+//https://leetcode-cn.com/problems/path-sum/
+class Solution {
+    
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        List<Boolean> flag=new ArrayList();
+        cmp(root,targetSum,0,flag);
+        for(Boolean f:flag)
+            if(f==true) return true;
+        return false;
+    }
+    public  void cmp(TreeNode p, int targetSum, int sum, List<Boolean> flag) {
+        if(p==null) return;
+        sum+=p.val;
+        if(p.left==null&&p.right==null) 
+            if(sum==targetSum) flag.add(true);
+            else flag.add(false);
+        cmp(p.left,targetSum,sum,flag);
+        cmp(p.right,targetSum,sum,flag);
+    }
+}
+
+//https://leetcode-cn.com/problems/path-sum-ii/
+class Solution {
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+        List<List<Integer>> pathSum=new ArrayList();
+        List<Integer> path=new ArrayList();
+        cmp(root,targetSum,0,path,pathSum);
+        return pathSum;
+    }
+    public  void cmp(TreeNode p, int targetSum, int sum, List<Integer> path,List<List<Integer>> pathSum) {
+        if(p==null) return;
+        sum+=p.val;
+        List<Integer> path_now = new ArrayList(path);
+        path_now.add(p.val);
+        if(p.left==null&&p.right==null) 
+            if(sum==targetSum) pathSum.add(path_now);
+        cmp(p.left,targetSum,sum,path_now,pathSum);
+        cmp(p.right,targetSum,sum,path_now,pathSum);
+    } 
+}
+//优化：使用类成员变量
+class Solution {
+    List<List<Integer>> pathSum=new ArrayList();
+    List<Integer> path=new ArrayList();
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+        cmp(root,targetSum,0);
+        return pathSum;
+    }
+    public  void cmp(TreeNode p, int targetSum, int sum) {
+        if(p==null) return;
+        sum+=p.val;
+        // List<Integer> path_now = new ArrayList(path);
+        path.add(p.val);
+        if(p.left==null&&p.right==null) 
+            if(sum==targetSum) pathSum.add(new ArrayList<>(path));//注意一定要new，不然是浅复制！！！
+        cmp(p.left,targetSum,sum);
+        cmp(p.right,targetSum,sum);
+        path.remove((int)(path.size()-1));
+    } 
+}
