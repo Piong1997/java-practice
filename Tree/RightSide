@@ -1,0 +1,32 @@
+//https://leetcode-cn.com/problems/binary-tree-right-side-view/
+class Solution {
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> l=new LinkedList();
+        // levelOrder(root,l);
+        // return l;
+        preOrder(root,l,0);
+        return l;
+    }
+    // public void levelOrder(TreeNode root,List<Integer> l) {
+    //     Queue<TreeNode> q=new LinkedList();
+    //     TreeNode p;
+    //     if(root==null)  return;
+    //     q.offer(root); 
+    //     while(!q.isEmpty()){
+    //         int len=q.size();
+    //         for(int i=0;i<len;i++){
+    //             p=q.poll();
+    //             if(i==len-1) l.add(p.val);
+    //             if(p.left!=null) q.offer(p.left);
+    //             if(p.right!=null) q.offer(p.right);
+    //         }
+    //     }                              
+    // } 
+    public void preOrder(TreeNode p,List<Integer> l,int depth){
+        if(p==null) return;
+        depth++;
+        if(depth>l.size()) l.add(p.val);
+        preOrder(p.right,l,depth);
+        preOrder(p.left,l,depth);
+    }
+}
