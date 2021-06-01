@@ -16,6 +16,28 @@ class Solution {
     }
 }
 class Solution {
+    public HashMap<Integer,Integer> m;
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        m=new HashMap();
+        for(int i=0;i<inorder.length;i++){
+            m.put(inorder[i],i);
+        }
+        return myBuild(inorder,preorder,0,preorder.length-1,0,inorder.length-1);
+    }
+    public TreeNode myBuild(int[] inorder, int[] preorder,int preleft,int preright,int inleft,int inright){
+        if(preleft>preright||inleft>inright) return null; //注意终止条件
+        TreeNode root=new TreeNode(preorder[preleft]);
+    
+        int preright_n=m.get(preorder[preleft]);//重点！
+        int inleft_n=inleft;
+        int inright_n=m.get(preorder[preleft]);//重点！！
+        int preleft_n=preleft+1;
+        root.left=myBuild(inorder,preorder,preleft_n,preright_n,inleft_n,inright_n-1);
+        root.right=myBuild(inorder,preorder,preright_n+1,preright,inright_n+1,inright);
+        return root;
+    }
+}
+class Solution {
     private Map<Integer, Integer> indexMap;
 
     public TreeNode myBuildTree(int[] preorder, int[] inorder, int preorder_left, int preorder_right, int inorder_left, int inorder_right) {
