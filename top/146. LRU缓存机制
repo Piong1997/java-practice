@@ -1,0 +1,44 @@
+class LRUCache {
+
+    int cap;
+    LinkedHashMap<Integer,Integer> map;
+    public LRUCache(int capacity) {
+        this.cap=capacity;
+        this.map= new LinkedHashMap(cap*2);
+    }
+    
+    public int get(int key) {
+        if(map.containsKey(key)){
+            int v = map.get(key);
+            map.remove(key);
+            map.put(key,v);
+            return v;
+        }
+        else return -1;    
+        
+    }
+    
+    public void put(int key, int value) {
+        
+        if(map.containsKey(key)){
+            int v = map.get(key);
+            map.remove(key);
+            map.put(key,value);
+        }
+        else if (map.size() == cap){
+            int i = map.entrySet().iterator().next().getKey();
+            this.map.remove(i);
+            this.map.put(key,value);
+        }
+        else if(map.size()<this.cap)
+            this.map.put(key,value);
+    }
+    
+}
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache obj = new LRUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
