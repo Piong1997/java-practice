@@ -36,6 +36,78 @@ class LRUCache {
     
 }
 
+//使用双向链表+map，链表用于保持顺序
+class LRUCache {
+
+    private int size;
+    private int cap;
+    class LRUNode{
+        int key;
+        int value;
+        LRUNode pre;
+        LRUNode next;
+        public LRUNode(){}
+        public LRUNode(int key,int value){this.key=key;this.value=value;}
+    }
+    private LRUNode head,tail;
+    private Map<Integer, LRUNode> cache = new HashMap<Integer, LRUNode>();
+    public LRUCache(int capacity) {
+        this.size=0;
+        this.cap=capacity;
+        head=new LRUNode();
+        tail=new LRUNode();
+        head.next=tail;
+        tail.pre=head;
+    }
+    
+    public int get(int key) {
+        if(cache.keySet().contains(key)){
+            LRUNode node=cache.get(key);
+            moveToHead(node);
+            return node.value;
+        }
+        else
+            return -1;
+        
+    }
+    
+    public void put(int key, int value) {
+        if(cache.keySet().contains(key)){
+            LRUNode node=cache.get(key);
+            node.value=value;
+            moveToHead(node);
+        }
+        else if(this.size==cap){
+            LRUNode node=new LRUNode(key,value);
+            LRUNode prenode=tail.pre;
+            cache.remove(prenode.key);            
+            prenode.pre.next=tail;
+            tail.pre=prenode.pre;
+            addToHead(node);
+            cache.put(key,node);
+        }
+        else{
+            LRUNode node=new LRUNode(key,value);
+            addToHead(node);
+            cache.put(key,node);
+            size++;
+        }
+    }
+        
+    public void moveToHead(LRUNode node){
+        node.pre.next=node.next;
+        node.next.pre=node.pre;
+        addToHead(node);
+    }
+    public void addToHead(LRUNode node){
+        node.pre=this.head;
+        node.next=head.next;
+        node.next.pre=node;
+        head.next=node;
+    }
+    
+}
+
 /**
  * Your LRUCache object will be instantiated and called as such:
  * LRUCache obj = new LRUCache(capacity);
