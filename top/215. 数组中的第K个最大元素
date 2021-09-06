@@ -11,11 +11,11 @@ class Solution {
         for(int i=0;i<=(r-p-4)/5;i++){
             Arrays.sort(a,p+i*5,p+i*5+4);
             int med=p+i*5+2;
-            swap(a,p+i,med);
+            swap(a,p+i,med); //各组中位数交换到数组前面的位置
         }
         int x = select(a, p, p+(r-p-4)/5, (r-p+1)/10);
         int i=partition(a,p,r, x);
-        int j=r-i+1;  //i-p+1;
+        int j=r-i+1;  //划分元+划分元右边元素个数
         if (k<=j) return select(a,i,r,k) ;
         else return select(a,p,i-1,k-j);
     }
