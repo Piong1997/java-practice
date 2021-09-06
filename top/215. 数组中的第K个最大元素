@@ -16,8 +16,31 @@ class Solution {
         int x = select(a, p, p+(r-p-4)/5, (r-p+1)/10);
         int i=partition(a,p,r, x);
         int j=r-i+1;  //划分元+划分元右边元素个数
-        if (k<=j) return select(a,i,r,k) ;
-        else return select(a,p,i-1,k-j);
+        if (k<=j) return select(a,i,r,k);//在右边，k不变
+        else return select(a,p,i-1,k-j);//在右边，k变为k-j
+    }
+    public int partition_t(int[] a, int p, int r,int x) {
+        int i = p,j=r;
+        int pos=0;
+        for(int q=p; q<=r; q++)
+        {
+            if(a[q]==x)
+            {
+                pos=q;
+                break;
+            }
+        }
+        swap(a,p,pos);
+        while (i < j){
+            while (a[j] >= x && i < j)
+                j -= 1;
+            a[i] = a[j];
+            while (a[i] <= x && i < j)
+                i += 1;
+            a[j] = a[i];
+        }
+        a[j] = x;
+        return j;
     }
    public int partition(int[] a,int p,int r,int val)
     {
@@ -49,20 +72,5 @@ class Solution {
         a[j]=a[i];
         a[i]=tmp;
     }
-    // def partition2(a, p, r):
-    // i = p
-    // j = r
-    // x = getCutNumber(a, p, r)
-    // temp = a[x]
-    // a[x] = a[p]
-    // a[p] = temp
-    // while (i < j):
-    //     while (a[j] >= temp and i < j):
-    //         j -= 1
-    //     a[i] = a[j]
-    //     while (a[i] <= temp and i < j):
-    //         i += 1
-    //     a[j] = a[i]
-    // a[j] = temp
-    // return j
+    
 }
