@@ -1,39 +1,62 @@
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
+        Set<List<Integer>> res = new HashSet<>();
         HashMap<Integer,Integer> map = new HashMap();
         ArrayList<Integer> a1=new ArrayList();
         ArrayList<Integer> a2=new ArrayList();
 
         for(int i=0;i<nums.length;i++){
             if(map.containsKey(nums[i])){
-                map.put(nums[i],map.get(nums[i]+1));
+                map.put(nums[i],map.get(nums[i])+1);
             }
             else
                 map.put(nums[i],1);
         }
-         for(Entry<Integer, Integer> entry: map.entrySet()) {
-             if(entry.getKey()>0){
+        for(Map.Entry<Integer, Integer> entry: map.entrySet()) {
+             if(entry.getKey()>=0){
                  int value = entry.getValue();
-                 if(value=1){
-                     a1.add(entry.getKey());
-                 }
-                 else a2.add(entry.getKey());
+                 a1.add(entry.getKey());
+                 if(value>1) a2.add(entry.getKey());
              } 
          }
-        
-
+        for(int tmp : a1){
+            twoSum(nums,-tmp,res);
+        }
+        for(int tmp : a2){
+            for(int i=0;i<nums.length;i++){
+                if(nums[i]==-2*tmp&&nums.length>2&&tmp!=0){//针对0特殊处理
+                    ArrayList<Integer> resi=new ArrayList();
+                    resi.add(nums[i]);
+                    resi.add(tmp);
+                    resi.add(tmp);
+                    resi.sort(Comparator.naturalOrder());
+                    res.add(resi);
+                }
+            }
+        }
+        if(map.containsKey(0)&&map.get(0)>=3){//针对0特殊处理
+            ArrayList<Integer> resi=new ArrayList();
+            resi.add(0);
+            resi.add(0);
+            resi.add(0);
+            res.add(resi);
+        }
+        return new ArrayList<>(res);
     }
-    public int[] twoSum(int[] nums, int target) {
+    public void twoSum(int[] nums, int target,Set<List<Integer>> res) {
         HashMap<Integer,Integer> map =new HashMap();
         for(int i=0;i<nums.length;i++){
             if(map.containsKey(target-nums[i])){
-                int[] res=new int[2];
-                res[0]=map.get(target-nums[i]);
-                res[1]= i;
-                return res;
+                ArrayList<Integer> resi=new ArrayList();
+                resi.add(target-nums[i]);
+                resi.add(nums[i]);
+                resi.add(-target);
+                resi.sort(Comparator.naturalOrder());
+                if(nums[i]!=-target&&target-nums[i]!=-target) res.add(resi); //数组只有一个target，不能出现两次
+                map.put(nums[i],1);
+                continue;
             }
-            map.put(nums[i],i);
+            map.put(nums[i],0);
         }
-        return null;
     }
 }
