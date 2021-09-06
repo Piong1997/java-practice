@@ -1,0 +1,54 @@
+class Solution {
+    public int[] sortArray(int[] nums) {
+        QuickSort(nums,0,nums.length-1);
+        return nums;
+    }
+
+    public void QuickSort (int[] a, int p, int r)
+    {
+        if (p<r) {
+            int x = new Random().nextInt(r - p + 1) + p; //getCutNumber(a,p,r);   //随机算法性能好过三者取中
+            int q=partition_t(a,p,r,x);
+            QuickSort (a,p,q-1); //对左半段排序
+            QuickSort (a,q+1,r); //对右半段排序
+            }
+    }
+
+    public int partition_t(int[] a, int p, int r,int x) {
+        int i = p,j=r;
+        int temp = a[x];
+        swap(a,p,x);
+        while (i < j){
+            while (a[j] >= temp && i < j)
+                j -= 1;
+            a[i] = a[j];
+            while (a[i] <= temp && i < j)
+                i += 1;
+            a[j] = a[i];
+        }
+        a[j] = temp;
+        return j;
+    }
+    public int getCutNumber(int[] a,int p,int r){
+        int m = (p + r) / 2;
+        if (a[p] > a[r]){
+            if (a[p] < a[m])
+                return p;
+            else if (a[r] > a[m])
+                return r;
+            else
+                return m;
+        }
+        else if (a[p] > a[m])
+            return p;
+        else if (a[r] > a[m])
+            return m;
+        else
+            return r;
+    }
+     public void swap(int[] a, int i, int j){
+        int tmp = a[j];
+        a[j]=a[i];
+        a[i]=tmp;
+    }
+}
