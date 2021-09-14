@@ -14,3 +14,18 @@ class Solution {
         return res[i];
     }
 }
+//改进 不需要保存所有中间结果，只需要上一步
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int tmp = nums[0];
+        int max = nums[0];
+        for(int i=1;i<nums.length;i++){
+            tmp = subCount(tmp,nums,i);
+            if(tmp>max) max=tmp; 
+        }
+        return max;
+    }
+    public int subCount(int pre,int[] nums,int i){
+        return Math.max(pre+nums[i],nums[i]);
+    }
+}
