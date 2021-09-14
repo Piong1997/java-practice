@@ -38,13 +38,13 @@ class Solution {
             sum = sum+nums[i];
             if(sum>max) {
                 max = sum;
-                to = i;
-                m.clear();
+                to = i;  //当前位置为串结束位置
+                m.clear();//去除以前的记录
                 m.put(from,to);
             }
             if(sum<0){ //抛弃置0，从下一个开始寻找
                 sum=0;
-                from = i+1;
+                from = i+1; //从下一个开始，from+1
             }
         }
         int key = m.keySet().iterator().next();
@@ -53,4 +53,30 @@ class Solution {
         arr.add(m.get(key));
         return arr;
     }
-
+//动态规划+求出子串位置
+    public ArrayList<Integer> maxSubArray2(int[] nums) {
+        int tmp = nums[0];
+        int max = nums[0];
+        Map<Integer,Integer> m = new HashMap<>();
+        ArrayList<Integer> arr = new ArrayList<Integer>();
+        int from=0,to=0;
+        m.put(from,to);
+        for(int i=1;i<nums.length;i++){
+            tmp = subCount(tmp,nums,i);
+            if(tmp>max){
+                to=i;//当前位置为串结束位置
+                m.clear();//去除以前的记录
+                m.put(from,to);
+                max=tmp;
+            }
+            if(tmp<0) from = i+1;//从下一个开始，from+1
+        }
+        int key = m.keySet().iterator().next();
+        arr.add(max);
+        arr.add(key);
+        arr.add(m.get(key));
+        return arr;
+    }
+    public int subCount(int pre,int[] nums,int i){
+        return Math.max(pre+nums[i],nums[i]);
+    }
