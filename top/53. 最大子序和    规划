@@ -1,0 +1,16 @@
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int[] res = new int[nums.length];
+        res[0] = nums[0];
+        int max=nums[0];
+        for(int i=1;i<nums.length;i++){
+            int j = subCount(res,nums,i);
+            if(j>max) max=j; 
+        }
+        return max;
+    }
+    public int subCount(int[] res,int[] nums,int i){
+        res[i] = Math.max(res[i-1]+nums[i],nums[i]);
+        return res[i];
+    }
+}
