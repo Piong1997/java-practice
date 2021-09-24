@@ -1,0 +1,22 @@
+//利用数组存储链表节点，方便地顺序访问各个节点
+class Solution {
+    public void reorderList(ListNode head) {
+        if(head.next==null||head.next.next==null){
+            return ;
+        }
+        ArrayList<ListNode> arr = new ArrayList();
+        ListNode p = head;
+        while(p!=null){
+            arr.add(p);
+            p = p.next;
+        }
+        for(int i=0;i<(arr.size()+1)/2-1;i++){ //长度为偶数，做size/2-1次，为奇数做size/2次
+            p = arr.get(i);
+            ListNode t = arr.get(arr.size()-1-i);
+            ListNode t2 = arr.get(arr.size()-i-2);
+            t2.next=null;
+            t.next=p.next;
+            p.next=t;
+        }
+    }
+}
