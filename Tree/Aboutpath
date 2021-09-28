@@ -55,6 +55,6 @@ class Solution {
             if(sum==targetSum) pathSum.add(new ArrayList<>(path));//注意一定要new，不然是浅复制！！！
         cmp(p.left,targetSum,sum);
         cmp(p.right,targetSum,sum);
-        path.remove((int)(path.size()-1));
+        path.remove((int)(path.size()-1)); //返回父节点，移除本节点
     } 
 }
