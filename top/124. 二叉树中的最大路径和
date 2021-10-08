@@ -1,0 +1,25 @@
+//mysolution
+class Solution {
+   public int maxPathSum(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        dfsMaxPathSum(root,res);
+        return Collections.max(res);
+    }
+    public  int maxRoot(TreeNode root,TreeNode trueRoot){
+        if(root==null)
+            return 0;
+        int left=maxRoot(root.left,trueRoot);
+        int right = maxRoot(root.right,trueRoot);
+        left=left>0?left:0;
+        right=right>0?right:0;
+        if(root==trueRoot)
+            return left+right+root.val;
+        return Math.max(left,right)+root.val;
+    }
+    public void dfsMaxPathSum(TreeNode root,List<Integer> res){
+        if (root == null) return;
+        res.add(maxRoot(root,root));
+        dfsMaxPathSum(root.left,res);
+        dfsMaxPathSum(root.right,res);
+    }
+}
