@@ -1,10 +1,11 @@
-//mysolution
+//mysolution：遍历每一个节点递归找其左子树和右子树的最大路径
 class Solution {
    public int maxPathSum(TreeNode root) {
         List<Integer> res = new ArrayList<>();
         dfsMaxPathSum(root,res);
         return Collections.max(res);
     }
+    //找该节点的最大路径
     public  int maxRoot(TreeNode root,TreeNode trueRoot){
         if(root==null)
             return 0;
@@ -16,6 +17,7 @@ class Solution {
             return left+right+root.val;
         return Math.max(left,right)+root.val;
     }
+    //节点遍历
     public void dfsMaxPathSum(TreeNode root,List<Integer> res){
         if (root == null) return;
         res.add(maxRoot(root,root));
