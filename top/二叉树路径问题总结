@@ -1,0 +1,80 @@
+二叉树路径的问题大致可以分为两类：
+1、自顶向下：
+顾名思义，就是从某一个节点(不一定是根节点)，从上向下寻找路径，到某一个节点(不一定是叶节点)结束
+具体题目如下：
+257. 二叉树的所有路径
+面试题 04.12. 求和路径
+112. 路径总和
+113. 路径总和 II
+437. 路径总和 III
+988. 从叶结点开始的最小字符串
+
+而继续细分的话还可以分成一般路径与给定和的路径
+
+2、非自顶向下：
+就是从任意节点到任意节点的路径，不需要自顶向下
+124. 二叉树中的最大路径和
+687. 最长同值路径
+543. 二叉树的直径
+
+1、自顶向下
+#一般路径模板：
+vector<vector<int>>res;
+void dfs(TreeNode*root,vector<int>path)
+{
+    if(!root) return;  //根节点为空直接返回
+    path.push_back(root->val); 
+    if(!root->left && !root->right) //如果到叶节点  
+    {
+        res.push_back(path);
+        return;
+    }
+    dfs(root->left,path);  //继续递归
+    dfs(root->right,path);
+}
+# **给定和的路径模板：**
+void dfs(TreeNode*root, int sum, vector<int> path)
+{
+    if (!root)
+        return;
+    sum -= root->val;
+    path.push_back(root->val);
+    if (!root->left && !root->right && sum == 0)
+    {
+        res.push_back(path);
+        //找到路径后是否要return:
+        如果路径必须到叶节点,那么就要return;
+        否则不能return,因为这条路径下面还可能有更深的路径满足条件，还要在此基础上继续递归
+        return;
+    }
+    dfs(root->left, sum, path);
+    dfs(root->right, sum, path);
+}
+#如果题目不要求从根节点开始：
+需要双重递归，第一层递归遍历每个节点；第二层递归是以该节点为起始，寻找有几个满足解
+437. 路径总和 III
+class Solution {
+    public int pathSum(TreeNode root, int targetSum) {//第一层，遍历每个节点
+        if (root == null) {
+            return 0;
+        }
+        int ret = rootSum(root, targetSum);//第二层，以该节点为起始，寻找有几个满足解
+        ret += pathSum(root.left, targetSum);//第一层，遍历每个节点
+        ret += pathSum(root.right, targetSum);//第一层，遍历每个节点
+        return ret;
+    }
+    public int rootSum(TreeNode root, int targetSum) {
+        int ret = 0;
+
+        if (root == null) {
+            return 0;
+        }
+        int val = root.val;
+        if (val == targetSum) {
+            ret++; //不要求到叶子，多个路径，不return
+        } 
+        ret += rootSum(root.left, targetSum - val);
+        ret += rootSum(root.right, targetSum - val);
+        return ret;
+    }
+}
