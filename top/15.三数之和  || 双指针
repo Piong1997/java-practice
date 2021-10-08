@@ -1,3 +1,4 @@
+//mysolution 转化为2数之和
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
         Set<List<Integer>> res = new HashSet<>();
@@ -58,5 +59,45 @@ class Solution {
             }
             map.put(nums[i],0);
         }
+    }
+}
+//solution
+class Solution {
+        public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> lists = new ArrayList<>();
+        //先对数组排序
+        Arrays.sort(nums);
+        //双指针
+        int len = nums.length;
+        for(int i = 0;i < len;++i) {
+            //i>0时 不可能有组合满足
+            if(nums[i] > 0) return lists;
+            //第一层循环i去重
+            if(i > 0 && nums[i] == nums[i-1]) continue;
+
+            int curr = nums[i];
+            //双指针，找和等于nums[i]的两个数
+            int L = i+1, R = len-1;
+            while (L < R) {
+                int tmp = curr + nums[L] + nums[R];
+                if(tmp == 0) {
+                    List<Integer> list = new ArrayList<>();
+                    list.add(curr);
+                    list.add(nums[L]);
+                    list.add(nums[R]);
+                    lists.add(list);
+                    //第二层循环L、R去重
+                    while(L < R && nums[L+1] == nums[L]) ++L;
+                    while (L < R && nums[R-1] == nums[R]) --R;
+                    ++L;
+                    --R;
+                } else if(tmp < 0) {
+                    ++L;
+                } else {
+                    --R;
+                }
+            }
+        }
+        return lists;
     }
 }
