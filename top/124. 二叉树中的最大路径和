@@ -25,3 +25,22 @@ class Solution {
         dfsMaxPathSum(root.right,res);
     }
 }
+class Solution {
+    int res = Integer.MIN_VALUE;
+    public int maxPathSum(TreeNode root) {
+        maxRoot(root);
+        return res;
+    }
+    public  int maxRoot(TreeNode root){
+        if(root==null)
+            return 0;
+        int left=maxRoot(root.left);
+        int right = maxRoot(root.right);
+        // 更新最大值，就是当前节点的val 加上左右节点的贡献。
+        res = Math.max(res, root.val + left + right);
+        // 计算当前节点能为父亲提供的最大贡献
+        int max = Math.max(root.val + left, root.val + right);
+        // 如果贡献小于0的话，直接返回0即可！
+        return max < 0 ? 0 : max;
+    } 
+}
