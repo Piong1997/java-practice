@@ -44,3 +44,21 @@ class Solution {
         return max < 0 ? 0 : max;
     } 
 }
+//543. 二叉树的直径
+class Solution {
+    int maxlen = 0;
+    public int diameterOfBinaryTree(TreeNode root) {
+        maxLength(root);
+        return maxlen-1;
+    }
+    public int maxLength(TreeNode root){
+        int len=0;
+        if(root==null)
+            return 0;
+        int leftlen = maxLength(root.left);
+        int rightlen = maxLength(root.right);
+        len = leftlen+rightlen+1;
+        maxlen = maxlen>len?maxlen:len;
+        return Math.max(leftlen,rightlen)+1;
+    }
+}
