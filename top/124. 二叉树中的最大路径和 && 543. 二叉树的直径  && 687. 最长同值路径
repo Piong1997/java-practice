@@ -83,3 +83,25 @@ class Solution {
         }else return 0;
     }
 }
+class Solution {
+    int ans;
+    public int longestUnivaluePath(TreeNode root) {
+        ans = 0;
+        arrowLength(root);
+        return ans;
+    }
+    public int arrowLength(TreeNode node) {
+        if (node == null) return 0;
+        int left = arrowLength(node.left);
+        int right = arrowLength(node.right);
+        int arrowLeft = 0, arrowRight = 0;
+        if (node.left != null && node.left.val == node.val) {//判断子节点的贡献值能否被本节点利用，如果子节点和本节点值不同，则只能为0
+            arrowLeft += left + 1;
+        }
+        if (node.right != null && node.right.val == node.val) {
+            arrowRight += right + 1;
+        }
+        ans = Math.max(ans, arrowLeft + arrowRight);//算本节点最大长度
+        return Math.max(arrowLeft, arrowRight); //返回贡献值
+    }
+}
