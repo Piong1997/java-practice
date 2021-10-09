@@ -62,3 +62,24 @@ class Solution {
         return Math.max(leftlen,rightlen)+1;
     }
 }
+//687. 最长同值路径
+//双重递归
+class Solution {
+    int res = 0;
+    public int longestUnivaluePath(TreeNode root) {
+        if(root==null) return 0;
+        int countleft = countLength(root.left,root.val);
+        int countright = countLength(root.right,root.val);
+        int count = countleft+countright;
+        res = res>count?res:count;
+        longestUnivaluePath(root.left);
+        longestUnivaluePath(root.right);
+        return res;
+    }
+    public int countLength(TreeNode root,int target){
+        if(root==null) return 0;
+        if(root.val==target){
+            return 1+Math.max(countLength(root.left,target),countLength(root.right,target));
+        }else return 0;
+    }
+}
