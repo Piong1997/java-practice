@@ -64,3 +64,24 @@ class Solution {
         return true;
     }
 }
+115. 不同的子序列
+//dp表以s为行，t为列
+class Solution {
+    public int numDistinct(String s, String t) {
+        int lens=s.length(),lent=t.length();
+        int[][] arr = new int[lent+1][lens+1];
+        for(int i=0;i<=lens;i++){
+            arr[0][i]=1;
+        }
+        for(int i=1;i<=lent;i++){
+            char chart=t.charAt(i-1);
+            for(int j=i;j<=lens;j++){
+                if(s.charAt(j-1)==chart)
+                    arr[i][j] = arr[i-1][j-1]+arr[i][j-1];
+                else
+                    arr[i][j] = arr[i][j-1];
+            }
+        }
+        return arr[lent][lens];
+    }
+}
