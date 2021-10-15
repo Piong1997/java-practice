@@ -66,6 +66,11 @@ class Solution {
 }
 115. 不同的子序列
 //dp表以s为行，t为列
+//该方法也适用于392： 
+//if(s.charAt(j-1)==chart)
+                    arr[i][j] = arr[i-1][j-1];
+                else
+                    arr[i][j] = arr[i][j-1];
 class Solution {
     public int numDistinct(String s, String t) {
         int lens=s.length(),lent=t.length();
