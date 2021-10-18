@@ -1,3 +1,36 @@
+//674. 最长连续递增序列
+# dp
+class Solution {
+    public int findLengthOfLCIS(int[] nums) {
+        int len = nums.length;
+        int res = 1;
+        int[] dp = new int[len];
+        dp[0]=1;
+        for(int i=1;i<len;i++){
+            dp[i]=1;
+            if(nums[i]>nums[i-1]){
+                dp[i]=dp[i-1]+1;
+            }
+            res = res>dp[i]?res:dp[i];
+        }
+        return res;
+    }
+}
+# 贪心
+class Solution {
+    public int findLengthOfLCIS(int[] nums) {
+        int ans = 0;
+        int n = nums.length;
+        int start = 0;
+        for (int i = 0; i < n; i++) {
+            if (i > 0 && nums[i] <= nums[i - 1]) {
+                start = i;
+            }
+            ans = Math.max(ans, i - start + 1);
+        }
+        return ans;
+    }
+}
 //300.最长递增子序列  dp[i]=max(dp[j])+1{nums[i]>nums[j]}  dp[i]表示以nums[i]结束的最长递增子序列
 class Solution {
     public int lengthOfLIS(int[] nums) {
