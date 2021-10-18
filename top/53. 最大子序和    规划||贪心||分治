@@ -69,7 +69,7 @@ class Solution {
                 m.put(from,to);
                 max=tmp;
             }
-            if(tmp<0) from = i+1;//从下一个开始，from+1
+            if(tmp==nums[i]) from = i+1;//从下一个开始，from+1
         }
         int key = m.keySet().iterator().next();
         arr.add(max);
