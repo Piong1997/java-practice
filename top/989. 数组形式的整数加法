@@ -18,6 +18,17 @@ class Solution {
         return res;
     }
 }
+while ( A 没完 || B 没完)
+    A 的当前位
+    B 的当前位
+
+    和 = A 的当前位 + B 的当前位 + 进位carry
+
+    当前位 = 和 % 10;
+    进位 = 和 / 10;
+
+判断还有进位吗
+
 //递归获取数字每一位
 void method(int n)
 {
