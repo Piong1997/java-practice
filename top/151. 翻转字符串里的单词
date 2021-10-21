@@ -1,0 +1,45 @@
+class Solution {
+    public String reverseWords(String s) {
+        List<String> ls = new ArrayList();
+        int len = s.length();
+        int start = -1,end = 0;
+        for(int i=0;i<len;i++){ //拆分单词
+            char c = s.charAt(i);
+            if(i==len-1&&c!=' '){ //因为用空格来判断单词结尾，有可能s以单词结尾，结尾无空格，这里特殊处理
+                end = i+1;
+                start = start==-1?i:start;
+                ls.add(s.substring(start,end));
+                break;
+            }
+            if(c==' '){
+                if(start!=-1){
+                    end = i;
+                    ls.add(s.substring(start,end));
+                    start=-1;
+                }
+                continue;
+            }
+            else if(start==-1){
+                start=i;
+            }
+        }
+        Collections.reverse(ls);
+        StringBuilder sb = new StringBuilder();
+        for(String t : ls){
+            sb.append(t+" ");
+        }
+        sb.deleteCharAt(sb.length()-1);
+        return sb.toString();
+    }
+}
+//调用库函数
+class Solution {
+    public String reverseWords(String s) {
+        // 除去开头和末尾的空白字符
+        s = s.trim();
+        // 正则匹配连续的空白字符作为分隔符分割
+        List<String> wordList = Arrays.asList(s.split("\\s+"));
+        Collections.reverse(wordList);
+        return String.join(" ", wordList);
+    }
+}
