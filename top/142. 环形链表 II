@@ -1,0 +1,35 @@
+//推导https://leetcode-cn.com/problems/linked-list-cycle-ii/solution/huan-xing-lian-biao-ii-by-leetcode-solution/
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+        ListNode p = head,r = head,tmp=head;
+        do{ //第一步，找到快慢指针交汇点
+            if(r==null || r.next==null || r.next.next==null){
+                return null;
+            }else{
+                r = r.next.next;
+            }
+            p = p.next;
+        }while(r!=p);
+        while(tmp!=p){ //第二步，首指针和慢指针一起走，相遇点就是环起点
+            p=p.next;
+            tmp=tmp.next;
+        }
+        return p;
+    }
+}
+or 哈希表
+public class Solution {
+    Map<ListNode,Integer> m = new HashMap<>();
+    public ListNode detectCycle(ListNode head) {
+        ListNode p = head;
+        int i = 0;
+        while(p!=null){
+            m.put(p,i);
+            if(m.containsKey(p.next))
+                return p.next;
+            i++;
+            p=p.next;
+        }
+        return null;
+    }
+}
