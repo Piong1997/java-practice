@@ -17,6 +17,7 @@ public class Solution {
         return p;
     }
 }
+//求环的长度：找到环开头节点后再遍历环一次
 or 哈希表
 public class Solution {
     Map<ListNode,Integer> m = new HashMap<>();
