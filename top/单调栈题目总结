@@ -22,7 +22,7 @@ class Solution {
     }
 }
 //503. 下一个更大元素 II
-#显示拉长数组
+#显示地拉长数组
 class Solution {
     public int[] nextGreaterElements(int[] nums) {
         int len = nums.length;
@@ -42,5 +42,21 @@ class Solution {
             stack.push(newArr[i]);
         }
         return Arrays.copyOfRange(res,0,len);
+    }
+}
+#取余，不用显示
+class Solution {
+    public int[] nextGreaterElements(int[] nums) {
+        int n = nums.length;
+        int[] ret = new int[n];
+        Arrays.fill(ret, -1);
+        Deque<Integer> stack = new LinkedList<Integer>();
+        for (int i = 0; i < n * 2 - 1; i++) {
+            while (!stack.isEmpty() && nums[stack.peek()] < nums[i % n]) {
+                ret[stack.pop()] = nums[i % n];
+            }
+            stack.push(i % n);
+        }
+        return ret;
     }
 }
