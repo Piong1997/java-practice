@@ -1,0 +1,23 @@
+class Solution {
+    int n;
+    List<String> res = new ArrayList();
+    public List<String> generateParenthesis(int n) {
+        this.n = n;
+        parse("",0,0);
+        return res;
+    }
+    public void parse(String s, int l, int r){
+        StringBuilder sb = new StringBuilder(s);
+        if(l>n||r>n) return;
+        if(l<r) return;
+        if(l==n&&r==n){
+            res.add(s);
+        }
+        sb.append('(');
+        parse(sb.toString(),l+1,r);
+        // System.out.println(sb.toString());
+        sb.deleteCharAt(sb.length()-1);
+        sb.append(')');
+        parse(sb.toString(),l,r+1);
+    }
+}
