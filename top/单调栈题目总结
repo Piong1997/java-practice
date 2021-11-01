@@ -60,3 +60,53 @@ class Solution {
         return ret;
     }
 }
+//456. 132 模式
+class Solution {
+    public boolean find132pattern(int[] nums) {
+        int n = nums.length;
+        if (n < 3) {
+            return false;
+        }
+
+        // 左侧最小值
+        int leftMin = nums[0];
+        // 右侧所有元素
+        TreeMap<Integer, Integer> rightAll = new TreeMap<Integer, Integer>();
+
+        for (int k = 2; k < n; ++k) {
+            rightAll.put(nums[k], rightAll.getOrDefault(nums[k], 0) + 1);
+        }
+
+        for (int j = 1; j < n - 1; ++j) { //遍历最大的元素，即132的3
+            if (leftMin < nums[j]) { //比左边最小值大
+                Integer next = rightAll.ceilingKey(leftMin + 1);//找右边最小值=大于leftMin的最小值
+                if (next != null && next < nums[j]) { //比右边最小值大，成功找到
+                    return true;
+                }
+            }
+            leftMin = Math.min(leftMin, nums[j]);//可能比左边最小值小，更新最小值
+            rightAll.put(nums[j + 1], rightAll.get(nums[j + 1]) - 1);//下次循环以j+1为中心，从右侧元素移除它。
+            if (rightAll.get(nums[j + 1]) == 0) {
+                rightAll.remove(nums[j + 1]);
+            }
+        }
+        return false;
+    }
+}
+class Solution {
+    public boolean find132pattern(int[] nums) {
+        int n = nums.length;
+        Deque<Integer> stack = new LinkedList<>();
+        int k = Integer.MIN_VALUE;
+        for (int i = n - 1; i >= 0; i--) {//从后往前
+            if (nums[i] < k) return true;//stack里记录的是3的可选值
+            while (!stack.isEmpty() && stack.peek() < nums[i]) {
+                //k记录pop出的最大值，k即为132中3右边的最大值，即2的最大值
+                k = Math.max(k, stack.pop()); 
+            }
+            stack.push(nums[i]);
+        }
+        return false;
+    }
+}
+
