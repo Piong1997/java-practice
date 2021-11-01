@@ -109,4 +109,41 @@ class Solution {
         return false;
     }
 }
-
+//42. 接雨水
+#单调栈
+class Solution {
+    public int trap(int[] height) {
+        Deque<Integer> deque = new LinkedList<>();
+        int res = 0;
+        for (int i = 0; i < height.length; i++){
+        	//遇到比栈顶大的元素
+            while (!deque.isEmpty() && height[i] > height[deque.peekLast()]){
+                int tmp = deque.pollLast();
+                if (!deque.isEmpty()){
+                	//根据栈顶元素，弹栈出来的tmp，和遍历遇到的i，计算这一块的体积
+                    res += (i - deque.peekLast() - 1) * (Math.min(height[i], height[deque.peekLast()]) - height[tmp]);
+                }
+            }
+            deque.add(i);
+        }
+        return res;
+    }
+}
+#暴力
+class Solution {
+    public int trap(int[] height) {
+    int ans = 0;
+    int size = height.length;
+    for (int i = 1; i < size - 1; i++) {
+        int max_left = 0, max_right = 0;
+        for (int j = i; j >= 0; j--) { //Search the left part for max bar size
+            max_left = Math.max(max_left, height[j]);
+        }
+        for (int j = i; j < size; j++) { //Search the right part for max bar size
+            max_right = Math.max(max_right, height[j]);
+        }
+        ans += Math.min(max_left, max_right) - height[i];
+    }
+    return ans;
+}
+}
