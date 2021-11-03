@@ -62,3 +62,20 @@ class Solution {
         }
     }
 }
+#迭代
+public int findMin(int[] nums) {
+        if(nums[0]<nums[nums.length-1]) return nums[0];
+        // return binarySearch(nums,0,nums.length-1);
+        int l=0,r=nums.length-1;
+        while(l!=r){
+            if(r-l==1) return nums[l]>nums[r]?nums[r]:nums[l];
+            int mid = (l+r)/2;
+            if(nums[l]<=nums[mid]){//左升序，最小值肯定在右边
+                l=mid;
+            }
+            else{//右升序,最小值肯定在左边
+               r=mid;
+            }
+        }
+        return nums[l];
+    }
