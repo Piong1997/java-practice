@@ -1,0 +1,171 @@
+#402.移掉 K 位数字
+class Solution {
+    public String removeKdigits(String num, int k) {
+        Deque<Character> deque = new LinkedList<Character>();
+        int length = num.length();
+        for (int i = 0; i < length; ++i) {
+            char digit = num.charAt(i);
+            while (!deque.isEmpty() && k > 0 && deque.peekLast() > digit) {
+                deque.pollLast();
+                k--;
+            }
+            deque.offerLast(digit);
+        }
+        
+        for (int i = 0; i < k; ++i) {
+            deque.pollLast();
+        }
+        
+        StringBuilder ret = new StringBuilder();
+        boolean leadingZero = true;
+        while (!deque.isEmpty()) {
+            char digit = deque.pollFirst();
+            if (leadingZero && digit == '0') {
+                continue;
+            }
+            leadingZero = false;
+            ret.append(digit);
+        }
+        return ret.length() == 0 ? "0" : ret.toString();
+    }
+}
+//dp 超过空间复杂度
+class Solution {
+    public String removeKdigits(String num, int k) {
+        int len = num.length();
+        List<List<String>> res = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+        for(int i=0;i<len;i++){
+            sb.append(num.charAt(i));
+            List<String> tmp = new ArrayList<>();
+            for(int j=0;j<=k;j++){
+                if(j==0) tmp.add(sb.toString());
+                else if(j<=i){
+                    String s1 = res.get(i-1).get(j-1);
+                    String s2 = res.get(i-1).get(j)+num.charAt(i);
+                    if(compare(s1,s2))
+                        tmp.add(s1);
+                    else
+                        tmp.add(s2);
+                }
+                else if(j==i+1) tmp.add("");
+                else break;
+            }
+            res.add(tmp);
+        }
+        String result = res.get(len-1).get(k);
+        if(result.length()==0) result = "0";
+        else{
+            while(result.length()>1&&result.charAt(0)=='0'){
+                StringBuilder tmpSb = new StringBuilder(result);
+                tmpSb.deleteCharAt(0);
+                result = tmpSb.toString();
+            }
+        }
+        return result;
+    }
+    public boolean compare(String s1,String s2){
+        for(int i=0;i<s1.length();i++){
+            if(s1.charAt(i)<s2.charAt(i)) return true;
+            else if(s1.charAt(i)>s2.charAt(i)) return false;
+        }
+        return true;
+    }
+}
+#316. 去除重复字母
+class Solution {
+    public String removeDuplicateLetters(String s) {
+        int len = s.length();
+        Map<Character,Integer> m = new HashMap<>();//记录各个字符还有几个
+        Deque<Character> stack = new LinkedList<>();
+        boolean[] visited = new boolean[26];//记录各个字符现在是否在栈内;
+        for(int i=0;i<len;i++){
+            m.put(s.charAt(i),m.getOrDefault(s.charAt(i),0)+1);
+        }
+        for(int i=0;i<len;i++){
+            char c = s.charAt(i);
+            if(visited[c-'a']) { //在栈中，直接跳过
+                m.put(c, m.get(c)-1);//计数--
+                continue;
+            }
+            while(!stack.isEmpty()&&stack.peek()>c){
+                char peek = stack.peek();
+                int count = m.get(peek);
+                if(count>1){//计数大于1，后面还有才出栈
+                    stack.pop();
+                    m.put(peek,--count);//计数--
+                    visited[peek-'a']=false;//出栈后记为false
+                }
+                else break;
+            }
+            stack.push(c);
+            visited[c-'a']=true;//入栈后记为true
+        }
+        StringBuilder sb = new StringBuilder();
+        while(!stack.isEmpty()){
+            Character ch = stack.pop();
+            if(m.get(ch)==1) sb.append(ch);
+            else m.put(ch,m.get(ch)-1);
+        }
+        return sb.reverse().toString();
+    }
+}
+#321. 拼接最大数
+//分治两个数组，遍历k的组合方式，再merge结果
+class Solution {
+    public int[] maxNumber(int[] nums1, int[] nums2, int k) {
+        int[] res = new int[0];
+        // 从 nums1 中选出长 i 的子序列
+        for (int i = 0; i <= k && i <= nums1.length; i++) {
+            // 从 nums2 中选出长 k - i 的子序列
+            if (k - i >= 0 && k - i <= nums2.length) {
+                // 合并
+                int[] tmp = merge(subMaxNumber(nums1, i), subMaxNumber(nums2, k - i));
+                // 取最大值
+                if (compare(tmp, 0, res, 0)) {
+                    res = tmp;
+                }
+            }
+        }
+        return res;
+    }
+
+    // 类似于单调递减栈
+    public int[] subMaxNumber(int[] nums, int len) {
+        int[] subNums = new int[len];
+        int cur = 0, rem = nums.length - len; // rem 表示还可以删去多少字符
+        for (int i = 0; i < nums.length; i++) {
+            while (cur > 0 && subNums[cur - 1] < nums[i] && rem > 0) {
+                cur--;
+                rem--;
+            }
+            if (cur < len) {
+                subNums[cur++] = nums[i];
+            } else {
+                rem--; // 避免超过边界而少删字符
+            }
+        }
+        return subNums;
+    }
+
+    public int[] merge(int[] nums1, int[] nums2) {
+        int[] res = new int[nums1.length + nums2.length];
+        int cur = 0, p1 = 0, p2 = 0;
+        while (cur < nums1.length + nums2.length) {
+            if (compare(nums1, p1, nums2, p2)) { // 不能只比较当前值，如果当前值相等还需要比较后续哪个大
+                res[cur++] = nums1[p1++];
+            } else {
+                res[cur++] = nums2[p2++];
+            }
+        }
+        return res;
+    }
+
+    public boolean compare(int[] nums1, int p1, int[] nums2, int p2) {
+        if (p2 >= nums2.length) return true;
+        if (p1 >= nums1.length) return false;
+        if (nums1[p1] > nums2[p2]) return true;
+        if (nums1[p1] < nums2[p2]) return false;
+        return compare(nums1, p1 + 1, nums2, p2 + 1);
+    }
+}
