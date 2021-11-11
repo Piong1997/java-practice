@@ -36,13 +36,14 @@ class Solution {
 }
 //手写堆排序--大根堆
 //建堆：循环n次，每次调整o(log n)，故最好、最坏、平均情况下：o(n*logn);
+//refer https://www.cnblogs.com/sidewinder/p/13733329.html
 class Solution {
    int[] a;
    int heapSize=0;
    public int findKthLargest(int[] nums, int k) {
         a = nums;
         heapSize = nums.length;
-        for(int i=(heapSize-2)/2;i>=0;i--){
+        for(int i=(heapSize-2)/2;i>=0;i--){ //最后一个非叶子节点是(heapSize-2)/2
             buildDown(i);
         }
         for(int i=0;i<k-1;i++){
@@ -50,22 +51,45 @@ class Solution {
         }
         return a[0];
     }
-    public void buildDown(int k){
-        if(heapSize==1||k>(heapSize-2)/2)
+    public void buildDown(int k){ //向下建立堆结构
+        if(heapSize==1||k>(heapSize-2)/2) //k超过最后一个叶子结点，停止
             return;
-        int left = k*2+1, right = k*2+2, largest = left;
-        if(right<heapSize && a[right]>a[left])
+        int left = k*2+1, right = k*2+2, largest = left; //左右孩子对应k*2+1， k*2+2
+        if(right<heapSize && a[right]>a[left]) //注意right可能越界1个元素
             largest = right;
         if(a[k]<a[largest]){
             swap(k,largest);
             buildDown(largest);
         }
     }
-    public void pop(int k){
-        swap(0,heapSize-1);
-        heapSize--;
-        buildDown(0);
+    public void pop(int k){ //pop堆顶，然后向下重建堆结构
+        swap(0,heapSize-1);//将堆顶元素交换到最后
+        heapSize--;//使堆顶元素失效
+        buildDown(0);//重新向下建立
     }
+     public void adjustUp(int k){//向上建立堆结构
+            if(k < 0) //遍历到0下一次递归到负数
+                return;
+            int left = 2 * k + 1, right = 2 * k +2, largest = left;
+            if(right < heapSize && arr[right] > arr[left]){
+                  largest  = right;
+            }
+            if(arr[largest] > arr[k]){
+                swap(largest, k);
+                adjustUp((k-1)/2); //k节点的父亲节点是(k-1)/2
+            }
+    }
+    public void push(int value) {
+            arr[heapSize++] = value; //添加到数组
+            adjustUp((heapSize-2)/2); //从底（最后一个叶子结点）向上重建堆结构
+        }
+        
+     // 排序只需要一直删除堆顶元素， 放到堆末尾;
+     public void sort(){
+          for(int i = 0; i < arr.length; i++){
+              poll(); //元素从大到小poll被poll出来
+          }
+     }
     public void swap(int i, int j){
         int tmp = a[j];
         a[j]=a[i];
