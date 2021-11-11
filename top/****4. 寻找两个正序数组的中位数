@@ -23,6 +23,7 @@ class Solution {
     }
 }
 //二分法，转化为求两个数组中第k大的元素
+//https://leetcode-cn.com/problems/median-of-two-sorted-arrays/solution/xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-by-w-2/
  public double findMedianSortedArrays(int[] nums1, int[] nums2) {
     int n = nums1.length;
     int m = nums2.length;
