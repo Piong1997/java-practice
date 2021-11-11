@@ -34,7 +34,7 @@ class Solution {
         a[i]=tmp;
     }
 }
-//手写堆排序
+//手写堆排序--大根堆
 //建堆：循环n次，每次调整o(log n)，故最好、最坏、平均情况下：o(n*logn);
 class Solution {
    int[] a;
@@ -70,6 +70,19 @@ class Solution {
         int tmp = a[j];
         a[j]=a[i];
         a[i]=tmp;
+    }
+}
+//调用库函数实现堆排序
+class Solution {
+   PriorityQueue<Integer> pq = new PriorityQueue<>(); //java优先队列采用堆实现，默认是小根堆，可以new Comparator自定义。线程不安全，安全：PriorityBlockingQueue
+   public int findKthLargest(int[] nums, int k) {
+        for(int i=0;i<nums.length;i++){
+            pq.offer(nums[i]);
+            if(pq.size()>k){
+                pq.poll();
+            }
+        }
+        return pq.peek();
     }
 }
 //线性时间选择--中位数解法
