@@ -62,7 +62,7 @@ class Solution {
             buildDown(largest);
         }
     }
-    public void pop(){ //pop堆顶，然后向下重建堆结构
+    public void poll(){ //pop堆顶，然后向下重建堆结构
         swap(0,heapSize-1);//将堆顶元素交换到最后
         heapSize--;//使堆顶元素失效
         buildDown(0);//重新向下建立
@@ -79,7 +79,7 @@ class Solution {
                 adjustUp((k-1)/2); //k节点的父亲节点是(k-1)/2
             }
     }
-    public void push(int value) {
+    public void offer(int value) {
             a[heapSize++] = value; //添加到数组
             adjustUp((heapSize-2)/2); //从底（最后一个叶子结点）向上重建堆结构
         }
