@@ -17,7 +17,7 @@ class Solution {
         int x = new Random().nextInt(r - l + 1) + l;
         int i=l,j=r,tmp=a[x];
         swap(a,l,x);
-        while(i<j){
+        while(i<j){ //正确写法
             while(a[j]>=tmp&&i<j)
                 j--;
             a[i]=a[j];
@@ -70,7 +70,7 @@ class Solution {
         swap(a,p,pos);
 
         int i=p,j=r+1,x=a[p];
-        while(true)
+        while(true)   //写法有问题？
         {
             while(a[++i]<x&&i<r);
             while(a[--j]>x);
