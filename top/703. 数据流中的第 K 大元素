@@ -1,0 +1,43 @@
+//使用线性时间选择算法
+class KthLargest {
+    List<Integer> arr;
+    int k;
+    public KthLargest(int k, int[] nums) {
+        this.arr = Arrays.stream(nums).boxed().collect(Collectors.toList());
+        this.k = k;
+    }
+
+    public int add(int val) {
+        arr.add(val);
+        return getKth(0,arr.size()-1,this.k);
+    }
+    public int getKth(int l, int r, int k){
+        if(l==r) return arr.get(l);
+        int index = randPartion(l,r);
+        int leftsize = index-l+1;
+        int rightsize = r-l+1-leftsize;
+        if(rightsize<k) return getKth(l,index,k-rightsize);
+        else return getKth(index+1,r,k);
+    }
+    public int randPartion(int l, int r){
+        int x = new Random().nextInt(r - l + 1) + l;
+        int i=l,j=r,tmp=arr.get(x);
+        swap(l,x);
+        while(i<j){
+            while(arr.get(j)>=tmp&&i<j)
+                j--;
+            arr.set(i,arr.get(j));
+            while(arr.get(i)<=tmp&&i<j)
+                i++;
+            arr.set(j,arr.get(i));
+        }
+        arr.set(j,tmp);
+        return j;
+    }
+    public void swap(int i, int j){
+        int tmp = arr.get(j);
+        arr.set(j,arr.get(i));
+        arr.set(i,tmp);
+    }
+   
+}
