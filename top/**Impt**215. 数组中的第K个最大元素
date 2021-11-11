@@ -62,7 +62,7 @@ class Solution {
             buildDown(largest);
         }
     }
-    public void pop(int k){ //pop堆顶，然后向下重建堆结构
+    public void pop(){ //pop堆顶，然后向下重建堆结构
         swap(0,heapSize-1);//将堆顶元素交换到最后
         heapSize--;//使堆顶元素失效
         buildDown(0);//重新向下建立
@@ -71,22 +71,22 @@ class Solution {
             if(k < 0) //遍历到0下一次递归到负数
                 return;
             int left = 2 * k + 1, right = 2 * k +2, largest = left;
-            if(right < heapSize && arr[right] > arr[left]){
+            if(right < heapSize && a[right] > a[left]){
                   largest  = right;
             }
-            if(arr[largest] > arr[k]){
+            if(a[largest] > a[k]){
                 swap(largest, k);
                 adjustUp((k-1)/2); //k节点的父亲节点是(k-1)/2
             }
     }
     public void push(int value) {
-            arr[heapSize++] = value; //添加到数组
+            a[heapSize++] = value; //添加到数组
             adjustUp((heapSize-2)/2); //从底（最后一个叶子结点）向上重建堆结构
         }
         
      // 排序只需要一直删除堆顶元素， 放到堆末尾;
      public void sort(){
-          for(int i = 0; i < arr.length; i++){
+          for(int i = 0; i < a.length; i++){
               poll(); //元素从大到小poll被poll出来
           }
      }
