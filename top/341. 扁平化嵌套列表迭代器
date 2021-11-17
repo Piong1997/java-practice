@@ -1,0 +1,74 @@
+//dfs展开数组到一维数组中
+public class NestedIterator implements Iterator<Integer> {
+    private List<Integer> vals;
+    private Iterator<Integer> cur;
+
+    public NestedIterator(List<NestedInteger> nestedList) {
+        vals = new ArrayList<Integer>();
+        dfs(nestedList);
+        cur = vals.iterator();
+    }
+
+    @Override
+    public Integer next() {
+        return cur.next();
+    }
+
+    @Override
+    public boolean hasNext() {
+        return cur.hasNext();
+    }
+
+    private void dfs(List<NestedInteger> nestedList) {
+        for (NestedInteger nest : nestedList) {
+            if (nest.isInteger()) {
+                vals.add(nest.getInteger());
+            } else {
+                dfs(nest.getList());
+            }
+        }
+    }
+}
+//使用栈存储遍历中的list，栈中存迭代器
+public class NestedIterator implements Iterator<Integer> {
+    // 存储列表的当前遍历位置
+    private Deque<Iterator<NestedInteger>> stack;
+    private Integer curNestedInteger; //存储next整数
+
+    public NestedIterator(List<NestedInteger> nestedList) 
+    {
+        stack = new LinkedList<Iterator<NestedInteger>>();
+        stack.push(nestedList.iterator());
+    }
+
+    @Override
+    public Integer next() 
+    {
+        return curNestedInteger;
+    }
+
+    @Override
+    public boolean hasNext() 
+    {
+        while (!stack.isEmpty()) 
+        {
+            Iterator<NestedInteger> it = stack.peek();
+            if (!it.hasNext()) 
+            { 
+                // 遍历到当前列表末尾，出栈
+                stack.pop();
+                continue;
+            }
+            NestedInteger nest = it.next();
+            // 当前列表内元素是整数，将其存入curNestedInteger中
+            if (nest.isInteger()) 
+            {
+                curNestedInteger = nest.getInteger();
+                return true;
+            }
+            //不是整数，继续入栈
+            stack.push(nest.getList().iterator());
+        }
+        return false;
+    }
+}
