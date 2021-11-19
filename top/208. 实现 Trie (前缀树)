@@ -1,0 +1,42 @@
+class Trie {
+    boolean isEnd;
+    Trie[] childList;
+    public Trie() {
+        childList = new Trie[26];
+        isEnd = false;
+    }
+    
+    public void insert(String word) {
+        Trie t = this;
+        for(int i=0;i<word.length();i++){
+            int index = word.charAt(i) - 'a';
+            if(t.childList[index]==null){
+                Trie child = new Trie();
+                t.childList[index] = child;
+            }
+            t = t.childList[index];
+        }
+        t.isEnd = true;
+    }
+    
+    public boolean search(String word) {
+        Trie t = searchPrefix(word);
+        return t!=null&&t.isEnd;
+    }
+    
+    public boolean startsWith(String prefix) {
+        return searchPrefix(prefix)!=null;
+    }
+    public Trie searchPrefix(String prefix){
+        Trie t = this;
+        for(int i=0;i<prefix.length();i++){
+            int index = prefix.charAt(i) - 'a';
+            if(t.childList[index]==null){
+                return null;
+            }
+            else
+                t = t.childList[index];
+        }
+        return t;
+    }
+}
