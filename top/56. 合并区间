@@ -40,6 +40,6 @@ class Solution {
             else
                 i++;
         }
-        return list.toArray(new int[0][]);
+        return list.toArray(new int[0][]); //List<int[]>转int[][]
     }
 }
