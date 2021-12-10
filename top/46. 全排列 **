@@ -1,0 +1,26 @@
+class Solution {
+    List<List<Integer>> res = new ArrayList<>();
+    int[] nums;
+    public List<List<Integer>> permute(int[] nums) {
+        this.nums = nums;
+        backtrack(0);
+        return res;
+    }
+    public void backtrack(int t){
+        if(t>nums.length-1){
+            res.add(Arrays.stream(nums).boxed().collect(Collectors.toList()));
+        }
+        else{
+            for(int i=t;i<nums.length;i++){
+                swap(t,i);
+                backtrack(t+1);
+                swap(t,i);
+            }
+        }
+    }
+    public void swap(int a, int b){
+        int tmp = nums[b];
+        nums[b] = nums[a];
+        nums[a] = tmp;
+    }
+}
