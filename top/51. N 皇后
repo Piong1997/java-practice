@@ -1,0 +1,43 @@
+class Solution {
+    List<List<Integer>> res = new ArrayList<>();
+    int n;
+    public List<List<String>> solveNQueens(int n) {
+        this.n = n;
+        backtrack(0,new ArrayList<Integer>());
+        List<List<String>> answer= new ArrayList<>();
+        StringBuilder sb = new StringBuilder("");
+        for(int i=0;i<n;i++){
+            sb.append('.');
+        }
+        List<String> ls = new ArrayList<>();
+        for(List<Integer> l : res){
+            for(Integer i : l){
+                sb.setCharAt(i,'Q');
+                ls.add(sb.toString());
+                sb.setCharAt(i,'.');
+            }
+            answer.add(new ArrayList(ls));//必须新建一个List，否则是浅拷贝
+            ls.clear();
+            
+        }
+        return answer;
+    }
+    public void backtrack(int t,List<Integer> x){
+        if(t>=n)
+            res.add(new ArrayList(x)); //必须新建一个List，否则是浅拷贝
+        for(int i=0;i<n;i++){
+            boolean flag=false;
+            for(int j=0;j<t;j++){
+                if(i==x.get(j)||Math.abs(t-j)==Math.abs(i-x.get(j))){
+                    flag=true;
+                    break;
+                }
+            }
+            if(!flag){
+                x.add(i);
+                backtrack(t+1,x);
+                x.remove(x.size()-1);
+            }
+        }
+    }
+}
