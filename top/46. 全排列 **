@@ -8,7 +8,12 @@ class Solution {
     }
     public void backtrack(int t){
         if(t>nums.length-1){
-            res.add(Arrays.stream(nums).boxed().collect(Collectors.toList()));
+            // res.add(Arrays.stream(nums).boxed().collect(Collectors.toList())); 少用，性能太拉
+            List<Integer> tmp= new ArrayList<>();
+            for(int i=0;i<nums.length;i++){
+                tmp.add(nums[i]);
+            }
+            res.add(tmp);
         }
         else{
             for(int i=t;i<nums.length;i++){
@@ -16,6 +21,44 @@ class Solution {
                 backtrack(t+1);
                 swap(t,i);
             }
+        }
+    }
+    public void swap(int a, int b){
+        int tmp = nums[b];
+        nums[b] = nums[a];
+        nums[a] = tmp;
+    }
+}
+//47 全排列II
+class Solution {
+    int[] nums;
+    List<List<Integer>> res = new ArrayList<>();
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        this.nums = nums;
+        backTrack(0);
+        return res;
+    }
+    public void backTrack(int t){
+        if(t>nums.length-1){
+            // res.add(Arrays.stream(nums).boxed().collect(Collectors.toList())); 少用，性能太拉
+            List<Integer> tmp= new ArrayList<>();
+            for(int i=0;i<nums.length;i++){
+                tmp.add(nums[i]);
+            }
+            res.add(tmp);
+        }
+        else{
+            Set<Integer> set = new HashSet<>();
+            for(int i=t;i<nums.length;i++){
+                int tmp = nums[i];
+                if(set.contains(tmp))
+                    continue;
+                set.add(tmp);
+                swap(i,t);
+                backTrack(t+1);
+                swap(i,t);
+            }
+            set.clear();
         }
     }
     public void swap(int a, int b){
