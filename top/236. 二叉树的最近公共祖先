@@ -1,0 +1,44 @@
+class Solution {
+    Map<TreeNode,TreeNode> m = new HashMap<>();
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        dfs(root);
+        //可以设置Set visited来简化公共父节点的判断
+        int depth_1=0,depth_2=0;
+        TreeNode p_1=p,q_1=q;
+        while(p_1!=root){
+            depth_1++;
+            p_1=m.get(p_1);
+        }
+        while(q_1!=root){
+            depth_2++;
+            q_1=m.get(q_1);
+        }
+        while(depth_1!=depth_2 || p!=q){
+            if(depth_1>depth_2){
+                p = m.get(p);
+                depth_1--;
+            }
+            else if(depth_1<depth_2){
+                q=m.get(q);
+                depth_2--;
+            }
+            else{
+                p = m.get(p);
+                q=m.get(q);
+                depth_1--;
+                depth_2--;
+            }
+        }
+        return p;
+    }
+    public void dfs(TreeNode p){
+        if(p.left!=null){
+            m.put(p.left,p);
+            dfs(p.left);
+        }
+        if(p.right!=null){
+            m.put(p.right,p);
+            dfs(p.right);
+        }
+    }
+}
