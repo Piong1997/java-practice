@@ -35,7 +35,6 @@ class Solution {
     }
 }
 //手写堆排序--大根堆
-//建堆：循环n次，每次调整o(log n)，故最好、最坏、平均情况下：o(n*logn);
 //refer https://www.cnblogs.com/sidewinder/p/13733329.html
 class Solution {
    int[] a;
@@ -43,8 +42,9 @@ class Solution {
    public int findKthLargest(int[] nums, int k) {
         a = nums;
         heapSize = nums.length;
+        //自下而上建立堆结构，复杂度O(n),可以理解为最底层叶子节点只会被访问一次，中间层节点只会被访问两次（如第一次遍历 遍历到 倒数第二层，更新后会参与倒数第三层的遍历，共访问两次）
         for(int i=(heapSize-2)/2;i>=0;i--){ //最后一个非叶子节点是(heapSize-2)/2
-            buildDown(i);
+            buildDown(i); 
         }
         for(int i=0;i<k-1;i++){
             pop(i);
