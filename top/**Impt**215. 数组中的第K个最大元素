@@ -67,7 +67,7 @@ class Solution {
         heapSize--;//使堆顶元素失效
         buildDown(0);//重新向下建立
     }
-    //可以采用该函数进行插入建堆，不需要知道所有元素，复杂度O(NlgN)
+    //可以采用该函数进行插入建堆，不需要知道所有元素，复杂度O(NlgN)=lg1+lg2+....+lgn
      public void adjustUp(int k){//从K节点向上建立堆结构，调用一次复杂度O(lgK)
             if(k < 0) //遍历到0下一次递归到负数
                 return;
