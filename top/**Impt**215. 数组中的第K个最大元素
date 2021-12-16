@@ -51,7 +51,7 @@ class Solution {
         }
         return a[0];
     }
-    public void buildDown(int k){ //向下建立堆结构
+    public void buildDown(int k){ //向下建立堆结构，调用一次复杂度O(lgK)
         if(heapSize==1||k>(heapSize-2)/2) //k超过最后一个叶子结点，停止
             return;
         int left = k*2+1, right = k*2+2, largest = left; //左右孩子对应k*2+1， k*2+2
@@ -62,12 +62,12 @@ class Solution {
             buildDown(largest);
         }
     }
-    public void poll(){ //pop堆顶，然后向下重建堆结构
+    public void poll(){ //pop堆顶，然后向下重建堆结构，O(lgN)
         swap(0,heapSize-1);//将堆顶元素交换到最后
         heapSize--;//使堆顶元素失效
         buildDown(0);//重新向下建立
     }
-     public void adjustUp(int k){//向上建立堆结构
+     public void adjustUp(int k){//向上建立堆结构，调用一次复杂度O(lgK)
             if(k < 0) //遍历到0下一次递归到负数
                 return;
             int left = 2 * k + 1, right = 2 * k +2, largest = left;
