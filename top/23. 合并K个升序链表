@@ -1,0 +1,67 @@
+//直接合并
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        ListNode head = new ListNode();
+        ListNode p = head;
+        int pos=0;
+        int nullCount = lists.length;
+        for(int i=0;i<lists.length;i++){
+            if(lists[i]==null) nullCount--;
+        }
+        while(nullCount!=0){
+            ListNode min = new ListNode(Integer.MAX_VALUE);
+            for(int i=0;i<lists.length;i++){
+                if(lists[i]!=null){
+                    if(min.val>=lists[i].val){
+                        min = lists[i];
+                        pos = i;
+                    }       
+                }
+            }
+            p.next = min;
+            p = min;
+            lists[pos] = lists[pos].next;
+            if(lists[pos]==null) nullCount--;
+            p.next = null;            
+        }
+        return head.next;
+    }
+}
+//使用队列
+class Solution {
+    class Status implements Comparable<Status> {
+        int val;
+        ListNode ptr;
+
+        Status(int val, ListNode ptr) {
+            this.val = val;
+            this.ptr = ptr;
+        }
+
+        public int compareTo(Status status2) {
+            return this.val - status2.val;
+        }
+    }
+
+    PriorityQueue<Status> queue = new PriorityQueue<Status>();
+
+    public ListNode mergeKLists(ListNode[] lists) {
+        for (ListNode node: lists) {
+            if (node != null) {
+                queue.offer(new Status(node.val, node));
+            }
+        }
+        ListNode head = new ListNode(0);
+        ListNode tail = head;
+        while (!queue.isEmpty()) {
+            Status f = queue.poll();
+            tail.next = f.ptr;
+            tail = tail.next;
+            if (f.ptr.next != null) {
+                queue.offer(new Status(f.ptr.next.val, f.ptr.next));
+            }
+        }
+        return head.next;
+    }
+}
+
