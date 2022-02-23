@@ -1,0 +1,15 @@
+class Solution {
+    boolean falg = true;
+    public boolean isBalanced(TreeNode root) {
+        maxDepth(root);
+        return falg;
+    }
+    public int maxDepth(TreeNode root){
+        if(root == null || !falg)
+            return 0;
+        int leftDepth = maxDepth(root.left);
+        int rightDepth = maxDepth(root.right);
+        if(Math.abs(leftDepth-rightDepth)>1) falg = false;
+        return Math.max(1+leftDepth,1+rightDepth);
+    }
+}
