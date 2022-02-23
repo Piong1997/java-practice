@@ -37,8 +37,8 @@ class Solution {
         return res;
     }
 }
+//只是用end指针，记录重复字符上一次出现的位置
 class Solution {
-
     public int lengthOfLongestSubstring(String s) {
         HashMap<Character, Integer> map = new HashMap<>();
         int max = 0, start = 0;
