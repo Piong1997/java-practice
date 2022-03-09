@@ -53,3 +53,22 @@ class Solution {
         return max;
     }
 }
+
+//允许重复一次：用左右双指针，先移动右边再移动左边
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int left = 0;
+        char[] chars = new char[26];
+        int ans = 0;
+        for (int right = 0; right < s.length(); right++) {
+            chars[s.charAt(right) - 'a']++;
+            while (chars[s.charAt(right) - 'a'] > 2) {
+                chars[s.charAt(left) - 'a']--;
+                left++;
+            }
+            ans = Math.max(ans, right - left + 1);
+        }
+        return ans;
+    }
+}
+//至少重复K次，转395
