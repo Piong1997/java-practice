@@ -20,3 +20,20 @@ class Solution {
 }
 //930
 //1248
+class Solution {
+    public int numberOfSubarrays(int[] nums, int k) {
+        int res = 0, pre = 0;//pre为前缀和，代表0~i奇数个数
+        HashMap<Integer,Integer> map = new HashMap<>();
+        map.put(0,1);
+        for(int i=0;i<nums.length;i++){
+            if((nums[i]&1)==1){
+                pre+=1;
+            }
+            if(map.containsKey(pre-k)){
+                res+=map.get(pre-k);
+            }
+            map.put(pre,map.getOrDefault(pre,0)+1);
+        }
+        return res;
+    }
+}
