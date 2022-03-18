@@ -74,6 +74,12 @@ class Solution {
         if(a[k]<a[largest]){
             swap(k,largest);
             buildDown(largest);
+        // int left = k*2+1, right = k*2+2, smallest = left; //左右孩子对应k*2+1， k*2+2
+        // if(right<heapSize && a[right]<a[left]) //注意right可能越界1个元素
+        //     smallest = right;
+        // if(a[k]>a[smallest]){
+        //     swap(k,smallest);
+        //     buildDown(smallest);
         }
     }
     public void poll(){ //pop堆顶，然后向下重建堆结构
