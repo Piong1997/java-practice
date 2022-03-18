@@ -47,7 +47,7 @@ class Solution {
         map.put(0,1);
         for(int i=0;i<nums.length;i++){
             pre += nums[i];
-            int ret = (pre%k+k)%k; 
+            int ret = (pre%k+k)%k;   //ret本来应该为pre%k，但是pre可能为负数，要特殊处理
             if(map.containsKey(ret)){
                 res += map.get(ret);
             }
