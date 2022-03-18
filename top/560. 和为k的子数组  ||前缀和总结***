@@ -1,3 +1,4 @@
+https://leetcode-cn.com/problems/subarray-sum-equals-k/solution/de-liao-yi-wen-jiang-qian-zhui-he-an-pai-yhyf/
 //那么「[j..i][j..i] 这个子数组和为 kk 」这个条件我们可以转化为 pre[i]−pre[j−1]==k ，移项，pre[j−1]==pre[i]−k
 //所以我们考虑以 i 结尾的和为 k 的连续子数组个数时只要统计有多少个前缀和为 pre[i]−k 的pre[j] 即可。
 //560
