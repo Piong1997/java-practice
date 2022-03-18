@@ -59,7 +59,7 @@ class Solution {
     public int[] sortArray(int[] nums) {
         a = Arrays.copyOf(nums,nums.length); //copy数组
         heapSize = nums.length;
-        for(int i=(heapSize-2)/2;i>=0;i--){ //最后一个非叶子节点是(heapSize-2)/2
+        for(int i=(heapSize-2)/2;i>=0;i--){ //最后一个非叶子节点是(heapSize-2)/2 直接从数组建堆的复杂度为O(N)
             buildDown(i);
         }
         sort(nums);
