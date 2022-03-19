@@ -74,3 +74,51 @@ class Solution {
     return res;
     }
 }
+//中序非递归
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> res=new ArrayList();
+        Stack<TreeNode> s=new Stack();
+        TreeNode p=root;
+        while(p!=null || !s.empty()){
+            while(p!=null){
+                s.push(p);
+                p=p.left;
+            }
+            if(!s.empty()){
+                p=s.pop();
+                res.add(p.val);
+                p=p.right;
+            }
+        }
+        return res;
+    }
+}
+//后序非递归
+class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+        Stack<TreeNode> s=new Stack<TreeNode>();
+        List<Integer> res=new ArrayList<>();
+        TreeNode p=root,pre=null;
+        while(p!=null || !s.empty()){
+            while(p!=null){
+                s.push(p);
+                p=p.left;
+                pre=null;
+            }
+            if(!s.empty()){
+                if(s.peek().right==pre || s.peek().right==null){//判断上一个节点是否为右子树或右子树为空
+                    p=s.pop();
+                    res.add(p.val);
+                    pre=p;
+                    p=null;
+                }
+                else{
+                    p=s.peek();
+                    p=p.right;
+                }
+            }
+        }
+        return res;    
+    }
+}
