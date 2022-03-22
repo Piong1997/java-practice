@@ -74,6 +74,7 @@ class LRUCache {
     
     public void put(int key, int value) {
         LRUNode node;
+        if(cap==0) return;  //避免为0时put
         if(cache.containsKey(key)){
             node = cache.get(key);
             moveTohead(node);
