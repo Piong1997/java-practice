@@ -1,0 +1,39 @@
+class Solution {
+    String s;
+    List<String> res;
+    public List<String> restoreIpAddresses(String s) {
+        this.s = s;
+        res = new ArrayList<>();
+        String tmpRes = "";
+        dfs(1,0,tmpRes);
+        return res;
+    }
+    public void dfs(int count,int start,String tmpRes){
+        //注意这里的返回条件判断
+        //只有满足下面两点才是结果
+        if(count==5&&start==s.length()) {
+            res.add(tmpRes);
+            return;
+        }
+        //count>5，剪枝
+        //start>=s.length()，剪枝
+        if(count>5 || start>=s.length())
+            return;
+        
+        //开头是0
+        if(s.charAt(start)=='0'){
+            String tmp = count==1?"0":".0";
+            dfs(count+1,start+1,tmpRes+tmp);
+        }
+        else{
+            for(int i=start+1;i<start+4;i++){
+                if(i>s.length()) break;
+                int num = Integer.parseInt(s.substring(start,i));
+                if(num<=255){
+                    String tmp = count==1?""+num:"."+num;
+                    dfs(count+1,i,tmpRes+tmp);
+                }
+            }
+        }
+    }
+}
