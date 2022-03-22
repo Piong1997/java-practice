@@ -110,10 +110,77 @@ class LRUCache {
     }
 }
 
+//LFU
+class LFUCache {
+    int cap;
+    int size;
+    int idx;//全局自增idx，来判断使用时间的先后
+    class LFUNode{
+        int key;
+        int value;
+        int count;
+        int idx;
+        public LFUNode(){}
+        public LFUNode(int key,int value,int idx){
+            this.key=key;
+            this.value=value;
+            this.count=0;
+            this.idx=idx;
+        }
+    }
 
-/**
- * Your LRUCache object will be instantiated and called as such:
- * LRUCache obj = new LRUCache(capacity);
- * int param_1 = obj.get(key);
- * obj.put(key,value);
- */
+    PriorityQueue<LFUNode> pq;
+    Map<Integer,LFUNode> cache;
+
+    public LFUCache(int capacity) {
+        this.cap = capacity;
+        pq = new PriorityQueue<>(new Comparator<LFUNode>() {
+            public int compare(LFUNode o1, LFUNode o2) {
+                return o1.count!=o2.count?o1.count-o2.count:o1.idx-o2.idx; //先比较使用次数，相同使用次数比较时间
+            }
+        });
+        cache = new HashMap<>();
+    }
+    
+    public int get(int key) {
+        LFUNode node;
+        if(cache.containsKey(key)){
+            node = cache.get(key);
+            node.count++;
+            this.idx++;/每个操作都要让全局idx增加
+            node.idx=this.idx;
+            pq.remove(node);
+            pq.offer(node);
+            return node.value;
+        }
+        else 
+            return -1;
+    }
+    
+    public void put(int key, int value) {
+        LFUNode node;
+        if(cap==0) return;
+        this.idx++; //每个操作都要让全局idx增加
+        if(cache.containsKey(key)){
+            node = cache.get(key);
+            node.value = value;
+            node.count++;
+            node.idx = this.idx;
+            pq.remove(node);
+            pq.offer(node);
+        }
+        else if(size==cap){
+            node = new LFUNode(key,value,idx);
+            LFUNode rm = pq.poll();
+            cache.remove(rm.key);
+            cache.put(key,node);
+            pq.offer(node);
+        }
+        else{
+            node = new LFUNode(key,value,idx);
+            pq.offer(node);
+            size++;
+            cache.put(key,node);
+        }
+    }
+}
