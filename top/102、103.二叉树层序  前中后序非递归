@@ -122,3 +122,24 @@ class Solution {
         return res;    
     }
 }
+//后序可以通过前序 再reverse来实现
+class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> res=new ArrayList();
+        Stack<TreeNode> s=new Stack<TreeNode>();
+        TreeNode p=root;
+        while(p!=null||!s.empty()){
+            while(p!=null){
+                s.push(p);
+                res.add(p.val);
+                p=p.right;
+            }
+            if(!s.empty()){
+                p=s.pop();
+                p=p.left;
+            }
+        }
+        Collections.reverse(res);
+        return res;
+    }
+}
