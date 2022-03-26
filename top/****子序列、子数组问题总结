@@ -4,7 +4,7 @@
   dp[i]=max(dp[j])+1  {nums[i]>nums[j],0<=j<i}  dp[i]表示以nums[i]结束的最长递增子序列
 718.最长重复子数组 *  dp[i,j]代表nums[1]在从0到i，nums[2]从0到j，二者的最长重复子数组
   arr[i][j] = arr[i-1][j-1]+1 {nums1[i-1]==nums2[j-1]}; else arr[i][j]=0;
-1143.最长公共子序列 *
+1143.最长公共子序列 *  dp[i,j]代表nums[1]在从0到i，nums[2]从0到j，二者的最长公共子序列
   if(c1==text2.charAt(j-1)){
        arr[i][j] = arr[i-1][j-1]+1;
    }else{
