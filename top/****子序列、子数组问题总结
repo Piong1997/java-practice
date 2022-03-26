@@ -32,7 +32,7 @@
 72.编辑距离 ****
   当 word1[i] == word2[j]，dp[i][j] = dp[i-1][j-1]；
   当 word1[i] != word2[j]，dp[i][j] = min(dp[i-1][j-1], dp[i-1][j], dp[i][j-1]) + 1
-  其中，dp[i-1][j-1] 表示替换操作，dp[i-1][j] 表示删除操作，dp[i][j-1] 表示插入操作（插入和另一串删除等价）。
+  其中，dp[i-1][j-1] 表示替换操作，dp[i-1][j] 表示插入操作，dp[i][j-1] 表示删除操作（插入和另一串删除等价）。
 647.回文子串&&5. 最长回文子串 ***
  class Solution {
     public int countSubstrings(String s) {
