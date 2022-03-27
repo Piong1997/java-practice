@@ -34,6 +34,43 @@ class Solution {
         pre.next=p;tail.next=next;//pre指向反转后的头，tail指向后续的链表元素
         return headPre.next;
     }
+    //新方法
+     public ListNode reverseBetween(ListNode head, int left, int right) {
+        ListNode head_pre=new ListNode();
+        head_pre.next = head;
+        if(left==right) return head;
+        ListNode pre = head_pre,end_next = pre;
+        ListNode start = pre.next,end=start;
+        for(int i=1;i<=right;i++){
+            if(i==left-1)
+                pre=end;
+            else if(i==left)
+                start=end;
+            else if(i==right){
+                reverseBetweenNode(start,end);
+                //pre指向反转后的头结点，也就是原来的end
+                pre.next=end;
+                //反转后的尾节点，也就是原来的start，指向后继节点
+                start.next=end_next;
+                return head_pre.next;
+            }
+            end=end.next;
+            end_next=end.next;
+        }
+        return head_pre.next;
+    }
+
+    public void reverseBetweenNode(ListNode left, ListNode right) {
+        if(left==right) return;
+        ListNode p = left,next=p.next;
+        while(p!=right){
+            ListNode tmp=next.next;
+            next.next=p;
+            p=next;
+            next=tmp;
+        }
+        return;
+    }
 }
 //头插法
 class Solution {
@@ -88,5 +125,49 @@ class Solution {
             pre.next = next;
         }
         return dummyNode.next;
+    }
+    
+    //新方法
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if(k==1) return head;
+        ListNode head_pre=new ListNode();
+        head_pre.next = head;
+        ListNode pre = head_pre,end_next = pre;
+        ListNode start = pre.next,end=start;
+        for(int i=1;end!=null;i++){    
+            if(i%k==0){
+                reverseBetween(start,end);
+                //pre指向反转后的头结点，也就是原来的end
+                pre.next=end;
+                //反转后的尾节点，也就是原来的start，指向后继节点
+                start.next=end_next;
+                //pre更新为start，start后移一位
+                pre = start;
+                start=start.next;
+                //更新end，注意到最后一个元素时不能更新end_next
+                end=start;
+                if(end!=null)
+                    end_next=end.next;
+            }
+            //更新end，注意到最后一个元素时不能更新end_next
+            else{
+                end=end.next;
+                if(end!=null)
+                    end_next=end.next;
+            }
+            
+        }
+        return head_pre.next;
+    }
+   public void reverseBetween(ListNode left, ListNode right) {
+        if(left==right) return;
+        ListNode p = left,next=p.next;
+        while(p!=right){
+            ListNode tmp=next.next;
+            next.next=p;
+            p=next;
+            next=tmp;
+        }
+        return;
     }
 }
