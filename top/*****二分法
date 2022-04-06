@@ -1,3 +1,4 @@
+https://leetcode-cn.com/leetbook/read/binary-search/xe9cog/
 剑指 Offer II 068. 查找插入位置    
 public int searchInsert(int[] nums, int target) {
         int mid = 0;
