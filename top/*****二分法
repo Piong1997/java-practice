@@ -1,0 +1,56 @@
+剑指 Offer II 068. 查找插入位置    
+public int searchInsert(int[] nums, int target) {
+        int mid = 0;
+        int res = 0;
+        for(int left=0,right=nums.length-1;left<=right;){
+            mid = (left+right)/2;
+            if(nums[mid]==target) return mid;
+            else if(nums[mid]<target){
+                left = mid+1;
+                res = left;
+            }
+            else{ 
+                right = mid - 1;
+                res = right+1;
+            }
+        }
+        return res;
+    }
+}
+
+//410. 分割数组的最大值
+class Solution {
+    public int splitArray(int[] nums, int m) {
+        //low是分割数组和的最大值的下界，为数组元素最大值
+        //high是分割数组和的最大值的上界，为所有元素和（不分割）
+        int low=0,high=0;
+        for(int i=0;i<nums.length;i++){
+            high += nums[i];
+            low = Math.max(low,nums[i]);
+        }
+        int mid = 0 ;
+        //二分的条件都是左边界小于右边界
+        while(low<high){
+            mid = (low+high)/2;
+            int tmp = 0;
+            //count为划分数组个数，最小为1
+            int count = 1;
+            for(int i=0;i<nums.length;i++){
+                tmp=tmp+nums[i];
+                if(tmp>mid){
+                    count++;
+                    tmp = nums[i];
+                }
+            }
+            //count大于m，说明当前mid小了，导致划分出了更多的数组，low=mid
+            if(count>m)
+                low = mid+1;
+            //否则count<m或者=m，
+            //count<m，说明当前mid大了，导致划分出了更少的数组，让high=mid
+            //count=m，说明当前mid合适，要继续减小mid，等价于继续减小high
+            else 
+                high = mid;
+        }
+        return low;
+    }
+}
