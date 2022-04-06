@@ -55,3 +55,28 @@ class Solution {
         return low;
     }
 }
+
+//875. 爱吃香蕉的珂珂
+class Solution {
+    public int minEatingSpeed(int[] piles, int h) {
+        int low=0,high=0,sum=0,mid=0;
+        for(int i=0;i<piles.length;i++){
+            sum += piles[i];
+            high = Math.max(high,piles[i]);
+        }
+        low = sum%h==0?sum/h:sum/h+1;
+        while(low<high){
+            mid = (low+high)/2;
+            int count = 0;
+            for(int i=0;i<piles.length;i++){
+                int add = piles[i]%mid==0?piles[i]/mid:piles[i]/mid+1;
+                count+=add;
+            }
+            if(count>h) 
+                low=mid+1;
+            else
+                high=mid;
+        }
+        return low;
+    }
+}
