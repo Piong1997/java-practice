@@ -17,7 +17,22 @@ public int searchInsert(int[] nums, int target) {
         return res;
     }
 }
-
+//704 二分查找
+class Solution {
+    public int search(int[] nums, int target) {
+        int low=0,high=nums.length,mid=0;// 定义target在左闭右开的区间里，即：[left, right)
+        while(low<high){// 因为left == right的时候，在[low, high)是无效的空间，所以使用 <
+            mid=(low+high)/2;
+            if(nums[mid]>target)
+                high=mid;// target 在左区间，在[low, mid)中
+            else if(nums[mid]<target)
+                low=mid+1;// target 在右区间，在[mid + 1, high)中
+            else
+                return mid;
+        }
+        return -1;
+    }
+}
 //410. 分割数组的最大值
 class Solution {
     public int splitArray(int[] nums, int m) {
