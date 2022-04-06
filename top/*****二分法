@@ -34,6 +34,27 @@ class Solution {
         return -1;
     }
 }
+//33. 搜索旋转排序数组
+class Solution {
+    public int search(int[] nums, int target) {
+        return binarySearch(nums,target,0,nums.length);
+    }
+    public int binarySearch(int[] nums, int target,int l,int r){
+        if(l>=r) return -1;//使用的是[l,r)左开右闭区间
+        int mid = (l+r)/2;
+        if(target==nums[mid]) return mid;
+        if(nums[l]<=nums[mid]){//左升序
+            if(target>=nums[l]&&target<=nums[mid])//在左边范围内
+                return binarySearch(nums,target,l,mid);//搜索左边，范围为[l,mid)
+            return binarySearch(nums,target,mid+1,r);//搜索右，范围为[mid+1,r)
+        }
+        else{//右升序
+            if(target>=nums[mid]&&target<=nums[r-1])//在右边范围内，注意右边是闭区间，r-1
+                return binarySearch(nums,target,mid+1,r);
+            return binarySearch(nums,target,l,mid);
+        }
+    }
+}
 //410. 分割数组的最大值
 class Solution {
     public int splitArray(int[] nums, int m) {
