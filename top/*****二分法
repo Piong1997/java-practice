@@ -47,7 +47,8 @@ class Solution {
                 low = mid+1;
             //否则count<m或者=m，
             //count<m，说明当前mid大了，导致划分出了更少的数组，让high=mid
-            //count=m，说明当前mid合适，要继续减小mid，等价于继续减小high
+            //count=m，说明当前mid合适，要继续减小mid，等价于继续减小high，
+            //让high=mid而不是high=mid-1，因为 mid 是一个已经满足条件的值了，我们需要将它保留（如果更小的mid都不满足，那么在low==high的时候mid还会取到一次当前的mid）
             else 
                 high = mid;
         }
