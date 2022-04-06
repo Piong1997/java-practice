@@ -46,7 +46,7 @@ class Solution {
         int mid = 0 ;
         //二分的条件都是左边界小于右边界
         while(low<high){
-            mid = (low+high)/2;
+            mid = (low+high)/2; //或者使用low+(high-low)/2，放在相加溢出
             int tmp = 0;
             //count为划分数组个数，最小为1
             int count = 1;
