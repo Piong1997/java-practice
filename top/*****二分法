@@ -55,6 +55,29 @@ class Solution {
         }
     }
 }
+//153. 寻找旋转排序数组中的最小值
+class Solution {
+    int min = Integer.MAX_VALUE;
+    public int findMin(int[] nums) {
+        splitArray(nums,0,nums.length);
+        return min;
+    }
+    public void splitArray(int[] nums, int low, int high) {
+        int mid=low+(high-low)/2;
+        if(low >= high)
+            return;
+        else if(nums[mid]<min)
+            min = nums[mid];
+        if(nums[low]<=nums[mid]){//左升序
+            if(nums[low]<min)
+                min = nums[low];
+            splitArray(nums,mid+1,high);
+        }
+        else{//右升序
+            splitArray(nums,low,mid);
+        }
+    }
+}
 //410. 分割数组的最大值
 class Solution {
     public int splitArray(int[] nums, int m) {
