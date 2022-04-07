@@ -78,6 +78,41 @@ class Solution {
         }
     }
 }
+//34. 在排序数组中查找元素的第一个和最后一个位置
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        int left=left(nums,target);
+        int right=right(nums,target);
+        if(right==left-1) 
+            return new int[]{-1,-1};
+        else 
+            return new int[]{left,right};
+    }
+    public int left(int[] nums, int target){
+        int low=0,high=nums.length,mid=0;
+        while(low<high){//退出循环时，low=high
+            mid=low+(high-low)/2;
+            if(nums[mid]>=target) 
+                high=mid;//high最后一定是>=target的最左边一个值
+            else
+                low=mid+1;
+        }
+        return high;//如果找到target,high最后一定是=target的最左边一个值，low=high，故返回low(high)
+                   //如果没有找到target，返回的是>target的最左边一个值
+    }
+    public int right(int[] nums, int target){
+        int low=0,high=nums.length,mid=0;
+        while(low<high){//退出循环时，low=high
+            mid=low+(high-low)/2;
+            if(nums[mid]>target)
+                high=mid;//high最后一定是>target的最左边一个值
+            else
+                low=mid+1;
+        }
+        return low-1;//low=high，low是>target的最左边一个值,故返回low-1
+                     //如果没有找到target，返回的是 >target的最左边一个值-1
+    }
+}
 //410. 分割数组的最大值
 class Solution {
     public int splitArray(int[] nums, int m) {
