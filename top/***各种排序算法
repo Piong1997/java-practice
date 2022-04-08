@@ -10,3 +10,16 @@ public int[] sortArray(int[] nums) {
         }
         return nums;
 }
+#选择排序
+public int[] sortArray(int[] nums) {
+for(int i=0;i<nums.length-1;i++){
+    int min = i;
+    for(int j=i+1;j<nums.length;j++){ //对每个位置后面的元素，找到最小值
+        min = nums[j]<nums[min]?j:min;
+    }
+    int tmp = nums[i];//最小值和i交换
+    nums[i] = nums[min];
+    nums[min] = tmp;
+}
+return nums;
+}
