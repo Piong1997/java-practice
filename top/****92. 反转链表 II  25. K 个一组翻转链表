@@ -1,13 +1,19 @@
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
+#206.反转链表
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if(head==null) return head;
+        ListNode p=head,next=p.next;
+        while(next!=null){
+            ListNode tmp = next.next;
+            next.next=p;
+            p=next;
+            next=tmp;
+        }
+        head.next=null;//head（现在为尾）的next置空
+        return p;//返回现在的头
+    }
+}
+#反转指定区间链表
 class Solution {
    public ListNode reverseBetween(ListNode head, int left, int right) {
             ListNode head_pre = new ListNode();
@@ -97,81 +103,5 @@ class Solution {
     }
 }
 
-//直接调用上面的函数
-class Solution {
-    public ListNode reverseKGroup(ListNode head, int k) {
-        int length = 0;
-        ListNode t=head;
-        for(ListNode p=head;p!=null;p=p.next){
-            length++;
-        }
-        for(int i=1;k*i<=length;i++){
-            t = reverseBetween(t,(i-1)*k+1,i*k);
-        }
-        return t;
-
-    }
-     public ListNode reverseBetween(ListNode head, int left, int right) {
-        // 设置 dummyNode 是这一类问题的一般做法
-        ListNode dummyNode = new ListNode(-1);
-        dummyNode.next = head;
-        ListNode pre = dummyNode;
-        for (int i = 0; i < left - 1; i++) {
-            pre = pre.next;
-        }
-        ListNode cur = pre.next;
-        ListNode next;
-        for (int i = 0; i < right - left; i++) {
-            next = cur.next;
-            cur.next = next.next;
-            next.next = pre.next;
-            pre.next = next;
-        }
-        return dummyNode.next;
-    }
-    
-    //新方法
-    public ListNode reverseKGroup(ListNode head, int k) {
-        if(k==1) return head;
-        ListNode head_pre=new ListNode();
-        head_pre.next = head;
-        ListNode pre = head_pre,end_next = pre;
-        ListNode start = pre.next,end=start;
-        for(int i=1;end!=null;i++){    
-            if(i%k==0){
-                reverseBetween(start,end);
-                //pre指向反转后的头结点，也就是原来的end
-                pre.next=end;
-                //反转后的尾节点，也就是原来的start，指向后继节点
-                start.next=end_next;
-                //pre更新为start，start后移一位
-                pre = start;
-                start=start.next;
-                //更新end，注意到最后一个元素时不能更新end_next
-                end=start;
-                if(end!=null)
-                    end_next=end.next;
-            }
-            //更新end，注意到最后一个元素时不能更新end_next
-            else{
-                end=end.next;
-                if(end!=null)
-                    end_next=end.next;
-            }
-            
-        }
-        return head_pre.next;
-    }
-   public void reverseBetween(ListNode left, ListNode right) {
-        if(left==right) return;
-        ListNode p = left,next=p.next;
-        while(p!=right){
-            ListNode tmp=next.next;
-            next.next=p;
-            p=next;
-            next=tmp;
-        }
-        return;
-    }
 }
 
