@@ -94,6 +94,40 @@ class Solution {
     }
 }
 #25 k个一组翻转
+//最新版
+class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+        ListNode head_pre = new ListNode();
+        head_pre.next = head;
+        ListNode start_pre = head_pre;
+        int i=0;
+        for(ListNode p=head_pre;p!=null;){
+            if(i!=0 && i%k==0){
+                ListNode end_after = p.next;
+                reverseBetween(start_pre.next,p);
+                ListNode end=start_pre.next; //反转后的end
+                start_pre.next=p;//反转位置的前一个节点连接到反转后的头，也就是p
+                end.next = end_after;//反转后的end连接到end_after
+                p = end;//由于发生了反转，需要更新p为end
+                start_pre = p;//更新start_pre为反转的尾
+            }
+            i++;
+            p=p.next;
+        }
+        return head_pre.next;
+    }
+    public void reverseBetween(ListNode start, ListNode end){
+        ListNode p=start,next=p.next;
+        while(p!=end){
+            ListNode tmp=next.next;
+            next.next=p;
+            p=next;
+            next=tmp;
+        }
+        return ;
+    }
+}
+
 //直接调用上面的函数
 class Solution {
     public ListNode reverseKGroup(ListNode head, int k) {
@@ -171,3 +205,4 @@ class Solution {
         return;
     }
 }
+
