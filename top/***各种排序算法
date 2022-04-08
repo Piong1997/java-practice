@@ -1,1 +1,12 @@
-
+#直接插入排序
+public int[] sortArray(int[] nums) {
+        for(int i=1;i<nums.length;i++){
+            int tmp=nums[i];
+            int j=i-1;
+            for(;j>=0&&nums[j]>tmp;j--){//把前面的数与当前数比较，比当前数大就往后移一位
+                nums[j+1] = nums[j];//往后移一位
+            }
+            nums[j+1] = tmp;//j+1就是当前数应该在的位置
+        }
+        return nums;
+}
