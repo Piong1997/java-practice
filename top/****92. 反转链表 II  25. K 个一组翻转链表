@@ -9,67 +9,36 @@
  * }
  */
 class Solution {
-    public ListNode reverseBetween(ListNode head, int left, int right) {
-        if(left==right) return head;
-        ListNode headPre = new ListNode();
-        headPre.next = head;
-        ListNode p = headPre;
-        int index = 0;
-        while(index<left-1){//让p指向开始位置的前一个
-            p=p.next;
-            index++;
-        }
-        ListNode pre = p, tail=pre.next, next;//pre记录开始位置的前一个，tail记录反转的最后位置
-        //p向后指向开始节点
-        p=p.next;
-        next=p.next;
-        index++;
-
-        for(;index<right;index++){
-            ListNode tmp = next.next;
-            next.next=p;
-            p=next;
-            next=tmp;
-        }
-        pre.next=p;tail.next=next;//pre指向反转后的头，tail指向后续的链表元素
-        return headPre.next;
-    }
-    //新方法
-     public ListNode reverseBetween(ListNode head, int left, int right) {
-        ListNode head_pre=new ListNode();
-        head_pre.next = head;
-        if(left==right) return head;
-        ListNode pre = head_pre,end_next = pre;
-        ListNode start = pre.next,end=start;
-        for(int i=1;i<=right;i++){
-            if(i==left-1)
-                pre=end;
-            else if(i==left)
-                start=end;
-            else if(i==right){
-                reverseBetweenNode(start,end);
-                //pre指向反转后的头结点，也就是原来的end
-                pre.next=end;
-                //反转后的尾节点，也就是原来的start，指向后继节点
-                start.next=end_next;
-                return head_pre.next;
+   public ListNode reverseBetween(ListNode head, int left, int right) {
+            ListNode head_pre = new ListNode();
+            head_pre.next = head;
+            ListNode start_pre = head_pre;
+            int i=0;
+            for(ListNode p=head_pre;p!=null;){
+                if(i==left-1)
+                    start_pre = p;
+                else if(i==right){
+                    ListNode end_after = p.next;//反转后end应该连接的下一个节点
+                    reverseBetweenNode(start_pre.next,p);
+                    ListNode end = start_pre.next;//反转后的end
+                    start_pre.next = p;//反转位置的前一个节点连接到反转后的头，也就是p
+                    end.next = end_after;//反转后的end连接到end_after
+                    break;
+                }
+                i++;
+                p=p.next;
             }
-            end=end.next;
-            end_next=end.next;
-        }
-        return head_pre.next;
+            return head_pre.next;
     }
-
-    public void reverseBetweenNode(ListNode left, ListNode right) {
-        if(left==right) return;
-        ListNode p = left,next=p.next;
-        while(p!=right){
+    public void reverseBetweenNode(ListNode start, ListNode end){
+        ListNode p=start,next=p.next;
+        while(p!=end){
             ListNode tmp=next.next;
             next.next=p;
             p=next;
             next=tmp;
         }
-        return;
+        return ;
     }
 }
 //头插法
@@ -103,7 +72,7 @@ class Solution {
         int i=0;
         for(ListNode p=head_pre;p!=null;){
             if(i!=0 && i%k==0){
-                ListNode end_after = p.next;
+                ListNode end_after = p.next;//反转后end应该连接的下一个节点
                 reverseBetween(start_pre.next,p);
                 ListNode end=start_pre.next; //反转后的end
                 start_pre.next=p;//反转位置的前一个节点连接到反转后的头，也就是p
