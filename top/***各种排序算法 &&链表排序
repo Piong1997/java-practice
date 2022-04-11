@@ -24,6 +24,20 @@ for(int i=0;i<nums.length-1;i++){
 }
 return nums;
 }
+#冒泡
+public int[] sortArray(int[] nums) {
+        for(int i=0;i<nums.length-1;i++){
+            for(int j=0;j<nums.length-i-1;j++){
+                if(nums[j]>nums[j+1]){
+                    int tmp=nums[j];
+                    nums[j]=nums[j+1];
+                    nums[j+1]=tmp;
+                }
+            }
+        }
+        return nums;
+    }
+    
 #2路归并排序
  public int[] sortArray(int[] nums) {
         return sort(nums,0,nums.length-1);
@@ -60,16 +74,34 @@ return nums;
             a[x+low] = tmp[x];
         }
     }
-#冒泡
-public int[] sortArray(int[] nums) {
-        for(int i=0;i<nums.length-1;i++){
-            for(int j=0;j<nums.length-i-1;j++){
-                if(nums[j]>nums[j+1]){
-                    int tmp=nums[j];
-                    nums[j]=nums[j+1];
-                    nums[j+1]=tmp;
-                }
-            }
+#链表排序，递归归并，空间复杂度O(lgn)
+class Solution {
+    public ListNode sortList(ListNode head) {
+        if(head==null || head.next==null)
+            return head;
+        ListNode fast=head.next,slow=head;
+        while(fast!=null && fast.next!=null){
+            fast = fast.next.next;
+            slow = slow.next;
         }
-        return nums;
+        ListNode nextStart = slow.next;
+        slow.next = null;
+        ListNode left = sortList(head);
+        ListNode right = sortList(nextStart);
+        ListNode newHead = new ListNode(); 
+        ListNode res = newHead;      
+        while(left!=null && right!=null){
+            if(left.val<right.val){
+                newHead.next = left;
+                left = left.next;
+            }
+            else{
+                newHead.next = right;
+                right = right.next;
+            }
+            newHead = newHead.next;
+        }
+        newHead.next = left==null?right:left;
+        return res.next;
     }
+}
