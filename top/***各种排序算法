@@ -42,7 +42,7 @@ return nums;
         int[] tmp = new int[high-low+1];
         // 把较小的数先移到新数组中
         while(i<=mid && j<=high){
-            if(a[i]<a[j])
+            if(a[i]<=a[j])   //这里用<=保证相等情况下先用前面的，保证了排序的稳定性
                 tmp[index++]=a[i++];
             else
                 tmp[index++]=a[j++];
