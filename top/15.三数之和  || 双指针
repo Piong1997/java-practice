@@ -1,101 +1,35 @@
-//mysolution 转化为2数之和
-class Solution {
-    public List<List<Integer>> threeSum(int[] nums) {
-        Set<List<Integer>> res = new HashSet<>();
-        HashMap<Integer,Integer> map = new HashMap();
-        ArrayList<Integer> a1=new ArrayList();
-        ArrayList<Integer> a2=new ArrayList();
-
-        for(int i=0;i<nums.length;i++){
-            if(map.containsKey(nums[i])){
-                map.put(nums[i],map.get(nums[i])+1);
-            }
-            else
-                map.put(nums[i],1);
-        }
-        for(Map.Entry<Integer, Integer> entry: map.entrySet()) {
-             if(entry.getKey()>=0){
-                 int value = entry.getValue();
-                 a1.add(entry.getKey());
-                 if(value>1) a2.add(entry.getKey());
-             } 
-         }
-        for(int tmp : a1){
-            twoSum(nums,-tmp,res);
-        }
-        for(int tmp : a2){
-            for(int i=0;i<nums.length;i++){
-                if(nums[i]==-2*tmp&&nums.length>2&&tmp!=0){//针对0特殊处理
-                    ArrayList<Integer> resi=new ArrayList();
-                    resi.add(nums[i]);
-                    resi.add(tmp);
-                    resi.add(tmp);
-                    resi.sort(Comparator.naturalOrder());
-                    res.add(resi);
-                }
-            }
-        }
-        if(map.containsKey(0)&&map.get(0)>=3){//针对0特殊处理
-            ArrayList<Integer> resi=new ArrayList();
-            resi.add(0);
-            resi.add(0);
-            resi.add(0);
-            res.add(resi);
-        }
-        return new ArrayList<>(res);
-    }
-    public void twoSum(int[] nums, int target,Set<List<Integer>> res) {
-        HashMap<Integer,Integer> map =new HashMap();
-        for(int i=0;i<nums.length;i++){
-            if(map.containsKey(target-nums[i])){
-                ArrayList<Integer> resi=new ArrayList();
-                resi.add(target-nums[i]);
-                resi.add(nums[i]);
-                resi.add(-target);
-                resi.sort(Comparator.naturalOrder());
-                if(nums[i]!=-target&&target-nums[i]!=-target) res.add(resi); //数组只有一个target，不能出现两次
-                map.put(nums[i],1);
-                continue;
-            }
-            map.put(nums[i],0);
-        }
-    }
-}
-//solution
 class Solution {
         public List<List<Integer>> threeSum(int[] nums) {
         List<List<Integer>> lists = new ArrayList<>();
-        //先对数组排序
+        //排序
         Arrays.sort(nums);
         //双指针
         int len = nums.length;
-        for(int i = 0;i < len;++i) {
-            //i>0时 不可能有组合满足
-            if(nums[i] > 0) return lists;
-            //第一层循环i去重
-            if(i > 0 && nums[i] == nums[i-1]) continue;
-
-            int curr = nums[i];
-            //双指针，找和等于nums[i]的两个数
-            int L = i+1, R = len-1;
-            while (L < R) {
-                int tmp = curr + nums[L] + nums[R];
-                if(tmp == 0) {
-                    List<Integer> list = new ArrayList<>();
-                    list.add(curr);
-                    list.add(nums[L]);
-                    list.add(nums[R]);
-                    lists.add(list);
-                    //第二层循环L、R去重
-                    while(L < R && nums[L+1] == nums[L]) ++L;
-                    while (L < R && nums[R-1] == nums[R]) --R;
-                    ++L;
-                    --R;
-                } else if(tmp < 0) {
-                    ++L;
-                } else {
-                    --R;
+        int index=0;
+        while(index<len-2 && nums[index]<=0){ //遍历每个元素，先判断下标（len-2保证有三个元素），防止越界
+            int low=index+1,high=len-1;//防止重复，不能选index之前的元素
+            while(low<high){
+                int sum = nums[low]+nums[high]+nums[index];
+                if(sum==0){//sum为0，添加到结果
+                    ArrayList<Integer> res = new ArrayList<>();
+                    res.add(nums[low]);
+                    res.add(nums[index]);
+                    res.add(nums[high]);
+                    lists.add(res);
+                    int tmpLow = nums[low], tmpHigh=nums[high];
+                    while(low<len && nums[low]==tmpLow)//先防止越界，再防止重复，跳过相同的元素
+                        low++;
+                    while(high>0 && nums[high]==tmpHigh)//防止重复，跳过相同的元素
+                        high--;
                 }
+                else if(sum>0)
+                    high--;
+                else 
+                    low++;
+            }
+            int tmp = nums[index];
+            while(index<len && tmp==nums[index]){
+                index++;
             }
         }
         return lists;
