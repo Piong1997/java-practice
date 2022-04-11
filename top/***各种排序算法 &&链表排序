@@ -105,3 +105,35 @@ class Solution {
         return res.next;
     }
 }
+#链表快排
+class Solution {
+    public ListNode sortList(ListNode head) {
+        if(head==null||head.next==null) return head;
+        ListNode newHead=new ListNode(-1);
+        newHead.next=head;
+        return quickSort(newHead,null);
+    }
+    // 带头结点的链表快速排序
+    private ListNode quickSort(ListNode head,ListNode end){
+        if(head.next==end) //带头节点，head.next==end相当于只有一个end节点
+            return head;
+        ListNode tmpHead = new ListNode(-1);//新链表表头，存小于partition的所有节点
+        //划分元设置为第一个元素，tmpHead_p和p分别为新链表和原链表的指针
+        ListNode partition = head.next, tmpHead_p=tmpHead, p=partition;
+        //p初始是partition,需要判断p.next，方便去掉p.next
+        while(p.next!=end){
+            if(p.next.val<partition.val){
+                tmpHead_p.next = p.next;
+                tmpHead_p = tmpHead_p.next;//节点加入到新链表中
+                p.next = p.next.next;//从原链表上断开,p不变，因为我们判断的是p.next
+            }
+            else
+                p = p.next;//大于partition，p前进
+        }
+        tmpHead_p.next = head.next;//新链表尾连接到原链表的数据头节点
+        head.next = tmpHead.next;//原链表的dummy节点连接到新联表的数据头结点
+        quickSort(head,partition);
+        quickSort(partition,end);
+        return head.next;
+    }
+}
