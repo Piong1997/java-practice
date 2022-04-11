@@ -79,16 +79,16 @@ class Solution {
     public ListNode sortList(ListNode head) {
         if(head==null || head.next==null)
             return head;
-        ListNode fast=head.next,slow=head;
+        ListNode fast=head.next,slow=head; //保证slow在双数时指向两个中间的前一个（这样只有两个节点时不会出错），在单数时指向中间节点
         while(fast!=null && fast.next!=null){
             fast = fast.next.next;
             slow = slow.next;
         }
-        ListNode nextStart = slow.next;
+        ListNode nextStart = slow.next;//记录第二个链表的起始节点，然后断开两个链表
         slow.next = null;
         ListNode left = sortList(head);
         ListNode right = sortList(nextStart);
-        ListNode newHead = new ListNode(); 
+        ListNode newHead = new ListNode(); //建立头并记录
         ListNode res = newHead;      
         while(left!=null && right!=null){
             if(left.val<right.val){
@@ -101,7 +101,7 @@ class Solution {
             }
             newHead = newHead.next;
         }
-        newHead.next = left==null?right:left;
+        newHead.next = left==null?right:left; //将剩余的连接到res链表上
         return res.next;
     }
 }
