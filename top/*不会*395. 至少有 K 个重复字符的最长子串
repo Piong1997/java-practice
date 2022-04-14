@@ -1,3 +1,28 @@
+
+#递归
+class Solution {
+    public int longestSubstring(String s, int k) {
+        if(s.length()<k) //如果子串长度已经小于k，返回0
+            return 0;
+        HashMap<Character,Integer> map = new HashMap<>();
+        for(int i=0;i<s.length();i++){
+            map.put(s.charAt(i),map.getOrDefault(s.charAt(i),0)+1);
+        }
+        int res = 0;
+        for(char c : map.keySet()){
+            if(map.get(c)<k){//如果某个字符数量小于k，那么就不能包含它，按其进行分割
+                for(String tmp : s.split(c+"")){
+                    res = Math.max(res,longestSubstring(tmp,k));//对每个子串，递归地进行分割
+                }
+                return res;//返回分割后的最大值
+            }
+        }
+        return s.length();//如果每个字符都大于k个了，说明当前子串符合条件，直接返回长度
+    }
+}
+
+
+
 //错了 主要看遍历map的方法（顺序和逆序）
 class Solution {
     public int longestSubstring(String s, int k) {
@@ -30,22 +55,4 @@ class Solution {
         return res;
     }
 }
-class Solution {
-    public int longestSubstring(String s, int k) {
-        if (s.length() < k) return 0;
-        HashMap<Character, Integer> counter = new HashMap();
-        for (int i = 0; i < s.length(); i++) {
-            counter.put(s.charAt(i), counter.getOrDefault(s.charAt(i), 0) + 1);
-        }
-        for (char c : counter.keySet()) {
-            if (counter.get(c) < k) {
-                int res = 0;
-                for (String t : s.split(String.valueOf(c))) {
-                    res = Math.max(res, longestSubstring(t, k));
-                }
-                return res;
-            }
-        }
-        return s.length();
-    }
-}
+
