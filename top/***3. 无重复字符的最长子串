@@ -1,21 +1,3 @@
-// O(n)，左右指针都只扫描一遍
-class Solution {
-    public int lengthOfLongestSubstring(String s) {
-        Set<Character> charSet = new HashSet<Character>();
-        int left = 0, right=-1, res=0;
-        for(int i=0;i<s.length();i++){
-            while(right<s.length()-1&&!charSet.contains(s.charAt(right+1))){
-                charSet.add(s.charAt(right+1));
-                right++;
-            }
-            res=Math.max(res,right-left+1);
-            left++;
-            charSet.remove(s.charAt(i));
-        }
-        return res;
-    }
-}
-//others
 class Solution {
     public int lengthOfLongestSubstring(String s) {
         // 记录字符上一次出现的位置
