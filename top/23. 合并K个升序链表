@@ -1,4 +1,4 @@
-//直接合并
+//直接合并  复杂度O(N*K)
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
         int notNullCount = 0;
@@ -24,41 +24,29 @@ class Solution {
         return newHead.next;  
     }
 }
-//使用队列
+//使用队列    复杂度O(N*lgK)
 class Solution {
-    class Status implements Comparable<Status> {
-        int val;
-        ListNode ptr;
-
-        Status(int val, ListNode ptr) {
-            this.val = val;
-            this.ptr = ptr;
-        }
-
-        public int compareTo(Status status2) {
-            return this.val - status2.val;
-        }
-    }
-
-    PriorityQueue<Status> queue = new PriorityQueue<Status>();
-
     public ListNode mergeKLists(ListNode[] lists) {
-        for (ListNode node: lists) {
-            if (node != null) {
-                queue.offer(new Status(node.val, node));
+        PriorityQueue<ListNode> pq = new PriorityQueue<>(new Comparator<ListNode>(){
+            public int compare(ListNode o1,ListNode o2){
+                return o1.val - o2.val;
             }
-        }
-        ListNode head = new ListNode(0);
-        ListNode tail = head;
-        while (!queue.isEmpty()) {
-            Status f = queue.poll();
-            tail.next = f.ptr;
-            tail = tail.next;
-            if (f.ptr.next != null) {
-                queue.offer(new Status(f.ptr.next.val, f.ptr.next));
+        });
+        ListNode newHead = new ListNode(), p = newHead;
+        for(int i=0;i<lists.length;i++)
+            if(lists[i]!=null){ 
+                pq.offer(lists[i]);
+                lists[i] = lists[i].next;
             }
+        while(pq.size()!=0){
+            ListNode tmp = pq.poll();
+            if(tmp.next!=null)
+                pq.offer(tmp.next);
+            tmp.next = null;
+            p.next = tmp;
+            p = p.next;
         }
-        return head.next;
+        return newHead.next;
     }
 }
 //二分
