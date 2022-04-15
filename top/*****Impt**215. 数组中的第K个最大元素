@@ -12,6 +12,16 @@ class Solution {
                 return findKthLargest_one(nums,l,index,k-rightsize);
             else
                 return findKthLargest_one(nums,index+1,r,k);//在右边找第k大的
+        
+        #不管left和right，直接看index位置和整个数组的相对位置
+        // int index = partiton(nums,left,right);
+        // int rightsize = nums.length-index;
+        // if(rightsize==k)
+        //     return nums[index];
+        // else if(rightsize<k)
+        //     return findKthLargest_one(nums,left,index-1,k);
+        // else
+        //     return findKthLargest_one(nums,index+1,right,k);
     }
     public int partion(int[] a,int p,int q,int x){
         int i=p,j=q,tmp=a[x];
