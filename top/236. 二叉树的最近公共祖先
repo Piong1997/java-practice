@@ -1,35 +1,20 @@
 class Solution {
-    Map<TreeNode,TreeNode> m = new HashMap<>();
+    Map<TreeNode,TreeNode> m = new HashMap<>(); //记录每个节点的父节点
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         dfs(root);
-        //可以设置Set visited来简化公共父节点的判断
         int depth_1=0,depth_2=0;
         TreeNode p_1=p,q_1=q;
+        List<TreeNode> visited = new ArrayList<>();
         while(p_1!=root){
-            depth_1++;
+            visited.add(p_1);
             p_1=m.get(p_1);
         }
         while(q_1!=root){
-            depth_2++;
+            if(visited.contains(q_1))
+                return q_1;
             q_1=m.get(q_1);
         }
-        while(depth_1!=depth_2 || p!=q){
-            if(depth_1>depth_2){
-                p = m.get(p);
-                depth_1--;
-            }
-            else if(depth_1<depth_2){
-                q=m.get(q);
-                depth_2--;
-            }
-            else{
-                p = m.get(p);
-                q=m.get(q);
-                depth_1--;
-                depth_2--;
-            }
-        }
-        return p;
+        return q_1;
     }
     public void dfs(TreeNode p){
         if(p.left!=null){
