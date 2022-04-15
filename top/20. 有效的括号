@@ -1,20 +1,22 @@
 class Solution {
     public boolean isValid(String s) {
-        Map<Character,Character> m = new HashMap<>();
+        // if(s.length()%2==1) return false;  这一句可要可不要
+        Map<Character,Character> m = new HashMap<>(); //保存右括号对应的左括号
         m.put(')','(');
         m.put(']','[');
         m.put('}','{');
-        if(s.length()%2==1) return false;
-        Stack<Character> stack = new Stack<>();
+        LinkedList<Character> stack = new LinkedList<>();
         for(int i=0;i<s.length();i++){
-            Character c = s.charAt(i);
-            if(m.containsKey(c)){
-                if(stack.isEmpty()||stack.pop()!=m.get(s.charAt(i)))
+            char c = s.charAt(i);
+            if(m.containsKey(c)){  //每次遇到右括号，它一定要和最右边没有被匹配的左括号相匹配。右括号不要进入栈
+                if(stack.isEmpty() || m.get(c)!=stack.peek()) //栈为空或者没有匹配成功，返回false
                     return false;
+                else
+                    stack.pop(); //匹配成功，移除左括号
             }
             else
-                stack.push(c);
+                stack.push(c);//遇到左括号就入栈
         }
-        return stack.isEmpty();
+        return stack.size()==0?true:false;
     }
 }
