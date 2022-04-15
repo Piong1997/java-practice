@@ -55,6 +55,16 @@ class Solution {
             pop(i);
         }
         return a[0];
+        
+        #一个一个地插入建堆
+        this.heap = new int[nums.length];
+        heapsize = 0;
+        for(int i=0;i<nums.length;i++)
+            offer(nums[i]);
+        for(int i=0;i<k-1;i++){
+            poll();
+        }
+        return heap[0];
     }
     public void buildDown(int k){ //从K节点开始向下建立堆结构，调用一次复杂度O(lgK)
         if(heapSize==1||k>(heapSize-2)/2) //k超过最后一个叶子结点，停止
@@ -77,18 +87,18 @@ class Solution {
             if(k < 0) //遍历到0下一次递归到负数
                 return;
             int left = 2 * k + 1, right = 2 * k +2, largest = left;
-            if(right < heapSize && a[right] > a[left]){
+            if(right < heapsize && heap[right] > heap[left]){
                   largest  = right;
             }
-            if(a[largest] > a[k]){
+            if(left<heapsize && heap[largest] > heap[k]){ //注意这里要判断left和right是否越界
                 swap(largest, k);
                 adjustUp((k-1)/2); //k节点的父亲节点是(k-1)/2
             }
     }
     public void offer(int value) {
-            a[heapSize++] = value; //添加到数组
-            adjustUp((heapSize-2)/2); //从底（最后一个叶子结点）向上重建堆结构
-        }
+            heap[heapsize++] = value; //添加到数组
+            adjustUp((heapsize-2)/2); //从底（最后一个叶子结点）向上重建堆结构
+    }
         
      // 排序只需要一直删除堆顶元素， 放到堆末尾;
      public void sort(){
