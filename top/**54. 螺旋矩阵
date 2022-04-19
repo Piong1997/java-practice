@@ -9,42 +9,23 @@ class Solution {
         return res;
     }
     public void dfs(int[][] matrix, int p, int q){
-        int i=p,j=q;
-        if(matrix.length-2*i==1){ //只剩一行，特殊处理
-            while(j<matrix[0].length-q){
-                res.add(matrix[i][j]);
-                j++;
-            }
+        if(matrix.length-2*p==1){ //只剩一行，特殊处理
+            for(int j=q;j<matrix[0].length-q;j++)
+                res.add(matrix[p][j]);
             return;
         }
-        else if(matrix[0].length-2*j==1){//只剩一列，特殊处理
-            while(i<matrix.length-p){ 
-                res.add(matrix[i][j]);
-                i++;
-            }
+        else if(matrix[0].length-2*q==1){//只剩一列，特殊处理
+            for(int i=p;i<matrix.length-p;i++) 
+                res.add(matrix[i][q]);
             return;
         }
-        while(j<matrix[0].length-q){//先往右走
-            res.add(matrix[i][j]);
-            j++;
-        }
-        j--;//越界，减1
-        i++;//防止重复访问转折点
-        while(i<matrix.length-p){
-            res.add(matrix[i][j]);
-            i++;
-        }
-        i--;
-        j--;
-        while(j>=q){
-            res.add(matrix[i][j]);
-            j--;
-        }
-        j++;
-        i--;
-        while(i>p){
-            res.add(matrix[i][j]);
-            i--;
-        }
+        for(int j=q;j<matrix[0].length-q;j++)//先往右走
+            res.add(matrix[p][j]);
+        for(int i=p+1; i<matrix.length-p; i++)//往下走，i从p+1开始，防止转角处元素重复访问
+            res.add(matrix[i][matrix[0].length-p-1]);
+        for(int j=matrix[0].length-q-2;j>=q;j--)//往左走，j从matrix[0].length-q-2开始，防止转角元素重复
+            res.add(matrix[matrix.length-p-1][j]);
+        for(int i=matrix.length-p-2;i>p;i--)//往上走，i从matrix.length-p-2开始，防止转角元素重复
+            res.add(matrix[i][q]);
     }
 }
