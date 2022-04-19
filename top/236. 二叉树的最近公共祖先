@@ -27,3 +27,19 @@ class Solution {
         }
     }
 }
+#递归 https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/solution/236-er-cha-shu-de-zui-jin-gong-gong-zu-xian-hou-xu/
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root==null || root==p || root==q) //到了叶子结点，或者找到了p或q，直接返回root
+            return root;
+        TreeNode left = lowestCommonAncestor(root.left,p,q);
+        TreeNode right = lowestCommonAncestor(root.right,p,q);
+        if(left==null && right==null) //左右都没找到pq，返回null
+            return null;
+        if(left==null)//右边找到p或q，返回right
+            return right;
+        if(right==null)//左边找到p或q，返回left
+            return left;
+        return root; //左右分别都找到了p或q，root就是公共祖先   
+    } 
+}
