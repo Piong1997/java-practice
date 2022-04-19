@@ -1,0 +1,50 @@
+class Solution {
+    List<Integer> res;
+    public List<Integer> spiralOrder(int[][] matrix) {
+        res = new ArrayList<>();
+        int len1 = matrix.length,len2=matrix[0].length;
+        int count = Math.min(len1,len2)%2==0?Math.min(len1,len2)/2:Math.min(len1,len2)/2+1;
+        for(int i=0;count>0;count--,i++)
+            dfs(matrix,i,i);
+        return res;
+    }
+    public void dfs(int[][] matrix, int p, int q){
+        int i=p,j=q;
+        if(matrix.length-2*i==1){ //只剩一行，特殊处理
+            while(j<matrix[0].length-q){
+                res.add(matrix[i][j]);
+                j++;
+            }
+            return;
+        }
+        else if(matrix[0].length-2*j==1){//只剩一列，特殊处理
+            while(i<matrix.length-p){ 
+                res.add(matrix[i][j]);
+                i++;
+            }
+            return;
+        }
+        while(j<matrix[0].length-q){//先往右走
+            res.add(matrix[i][j]);
+            j++;
+        }
+        j--;//越界，减1
+        i++;//防止重复访问转折点
+        while(i<matrix.length-p){
+            res.add(matrix[i][j]);
+            i++;
+        }
+        i--;
+        j--;
+        while(j>=q){
+            res.add(matrix[i][j]);
+            j--;
+        }
+        j++;
+        i--;
+        while(i>p){
+            res.add(matrix[i][j]);
+            i--;
+        }
+    }
+}
