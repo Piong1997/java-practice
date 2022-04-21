@@ -1,4 +1,4 @@
-
+#迭代
 class Solution {
     //以二叉树的中序遍历为模板
     public Node treeToDoublyList(Node root) {
@@ -25,5 +25,32 @@ class Solution {
         prev.right = head.right;//最后一个节点连接到第一个节点
         head.right.left = prev;//第一个节点连接到最后一个节点
         return head.right;
+    }
+}
+#递归
+class Solution {
+    Node prev;
+    Node first;
+    public Node treeToDoublyList(Node root) {
+        if(root==null) return root;
+        dfs(root);
+        this.prev.right = this.first;
+        this.first.left = this.prev;
+        return first;
+    }
+    public void dfs(Node root){
+        if(root==null)
+            return;
+        dfs(root.left);
+        if(this.prev==null){
+            this.prev = root;
+            this.first = root;
+        }
+        else{
+            this.prev.right = root;
+            root.left = this.prev;
+            this.prev = root;
+        }
+        dfs(root.right);
     }
 }
