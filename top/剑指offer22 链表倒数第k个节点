@@ -15,20 +15,17 @@ class Solution {
     }
 }
 //2 快慢指针
-public ListNode getKthFromEnd(ListNode head, int k) {
-        
-        ListNode frontNode = head, behindNode = head;
-        while (frontNode != null && k > 0) {
-
-            frontNode = frontNode.next;
-            k--;
+class Solution {
+    public ListNode getKthFromEnd(ListNode head, int k) {
+        ListNode fast=head,slow=head;
+        for(int i=k;i>0;i--){
+            if(fast!=null)
+                fast = fast.next;
         }
-
-        while (frontNode != null) {
-
-            frontNode = frontNode.next;
-            behindNode = behindNode.next;
+        while(fast!=null){
+            fast = fast.next;
+            slow = slow.next;
         }
-
-        return behindNode;
+        return slow;
     }
+}
