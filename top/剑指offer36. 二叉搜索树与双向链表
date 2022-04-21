@@ -1,0 +1,29 @@
+
+class Solution {
+    //以二叉树的中序遍历为模板
+    public Node treeToDoublyList(Node root) {
+        if(root==null) return root;
+        LinkedList<Node> stack = new LinkedList<>();
+        Node p = root, prev = null; //prev记录当前节点的前一个节点
+        Node head = new Node();
+        while(!stack.isEmpty() || p!=null){
+            while(p!=null){//一直往左孩子走
+                stack.push(p);
+                p = p.left;
+            }
+            Node tmp = stack.pop();
+            if(prev!=null){//连接
+                prev.right = tmp;
+                tmp.left = prev;
+            }
+            else{ //第一个节点特殊处理
+                head.right = tmp;
+            }
+            prev = tmp;
+            p = tmp.right;
+        }
+        prev.right = head.right;//最后一个节点连接到第一个节点
+        head.right.left = prev;//第一个节点连接到最后一个节点
+        return head.right;
+    }
+}
