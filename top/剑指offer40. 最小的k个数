@@ -57,4 +57,44 @@ class Solution {
         return j;
     }
 }
+#自顶向下建立整个堆，复杂度O(nlgn)
+class Solution {
+    int[] heap;
+    int heapsize;
+    public int[] getLeastNumbers(int[] arr, int k) {
+        int[] res = new int[k];
+        this.heapsize = arr.length;
+        this.heap = Arrays.copyOf(arr,arr.length);
+        for(int i=(heapsize-2)/2;i>=0;i--){
+            buildDown(i);
+        }
+        for(int i=0;i<k;i++){
+            res[i] = pop();
+        }
+        return res;
+    }
+    public void buildDown(int k){
+        if(heapsize==1 || k>(heapsize-2)/2)
+            return;
+        int left=2*k+1, right=2*k+2, mini=left;
+        if(right<heapsize && heap[left]>heap[right])
+            mini = right;
+        if(heap[k]>heap[mini]){
+            swap(k,mini);
+            buildDown(mini);
+        }
+    }
+    public int pop(){
+        int res = heap[0];
+        swap(0,heapsize-1);
+        heapsize--;
+        buildDown(0);
+        return res;
+    }
 
+    public void swap(int i, int j){
+        int tmp = heap[j];
+        heap[j] = heap[i];
+        heap[i] = tmp;
+    }
+}
