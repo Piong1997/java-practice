@@ -21,3 +21,40 @@ class Solution {
         return res;
     }
 }
+#快排思想
+class Solution {
+    public int[] getLeastNumbers(int[] arr, int k) {
+        int[] res = new int[k];
+        if(k==0) return res;
+        getLeastNumbers_one(arr,0,arr.length-1,k);
+        for(int i=0;i<k;i++){
+            res[i] = arr[i];
+        }
+        return res;
+    }
+    public void getLeastNumbers_one(int[] arr, int p, int q, int k){
+        int index = partition(arr,p,q);
+        int leftsize = index;
+        int rightsize = arr.length-index-1;
+        if(index==k-1) return;
+        else if(index<k) getLeastNumbers_one(arr,index+1,q,k);
+        else getLeastNumbers_one(arr,p,index-1,k);
+    }
+    public int partition(int[] a, int p, int q){
+        int x = new Random().nextInt(q-p+1)+p;
+        int i=p, j=q, tmp=a[x];
+        a[x] = a[p];
+        a[p] = tmp;
+        while(i<j){
+            while(a[j]>=tmp && i<j)
+                j--;
+            a[i] = a[j];
+            while(a[i]<=tmp && i<j)
+                i++;
+            a[j] = a[i];
+        }
+        a[j] = tmp;
+        return j;
+    }
+}
+
