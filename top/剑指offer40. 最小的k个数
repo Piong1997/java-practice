@@ -64,12 +64,20 @@ class Solution {
     int heapsize;
     public int[] getLeastNumbers(int[] arr, int k) {
         int[] res = new int[k];
-        this.heapsize = arr.length;
-        this.heap = Arrays.copyOf(arr,arr.length);       
-        #自底向上建立整个堆，复杂度O(n)，需要知道所有元素
-        for(int i=(heapsize-2)/2;i>=0;i--){
-            buildDown(i);
-        }
+        // this.heapsize = arr.length;
+        // this.heap = a;
+        // for(int i=(heapsize-2)/2;i>=0;i--){
+        //     buildDown(i);
+        // }
+        // for(int i=0;i<k;i++){
+        //     res[i] = pop();
+        // }
+
+        //一个一个地插入建堆
+        this.heap = new int[arr.length];
+        heapsize = 0;
+        for(int i=0;i<arr.length;i++)
+            offer(arr[i]);
         for(int i=0;i<k;i++){
             res[i] = pop();
         }
@@ -94,9 +102,26 @@ class Solution {
         return res;
     }
 
+    public void buildUp(int k){
+        if(k<0)
+            return;
+        int left=2*k+1, right=2*k+2, min=left;
+        if(right<heapsize && heap[left]>heap[right])//必须判断是否越界
+            min = right;
+        if(left<heapsize && heap[k]>heap[min]){//必须判断是否越界
+            swap(k,min);
+            buildUp((k-1)/2);
+        }
+    }
+    public void offer(int k){
+        heap[heapsize++] = k;
+        buildUp((heapsize-2)/2);
+    }
+
     public void swap(int i, int j){
         int tmp = heap[j];
         heap[j] = heap[i];
         heap[i] = tmp;
     }
 }
+
