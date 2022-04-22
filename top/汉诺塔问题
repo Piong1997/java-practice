@@ -1,0 +1,14 @@
+class Solution {
+    public void hanota(List<Integer> A, List<Integer> B, List<Integer> C) {
+       move(A.size(),A,B,C);
+    }
+    public void move(int n, List<Integer> A, List<Integer> B, List<Integer> C){
+        if(n==1){
+            C.add(A.remove(A.size()-1));
+            return;
+        }
+        move(n-1,A,C,B);// 将A上面n-1个通过C移到B
+        C.add(A.remove(A.size()-1));// 将A最后一个移到C
+        move(n-1,B,A,C);// 将B上面n-1个通过空的A移到C
+    }
+}
