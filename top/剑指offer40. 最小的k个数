@@ -1,3 +1,4 @@
+#调用系统堆，O(nlgk)，最多有k个元素在堆内，n个元素都需要入堆
 class Solution {
     public int[] getLeastNumbers(int[] arr, int k) {
         int[] res = new int[k];
@@ -57,14 +58,15 @@ class Solution {
         return j;
     }
 }
-#自顶向下建立整个堆，复杂度O(nlgn)
+#手写小顶堆
 class Solution {
     int[] heap;
     int heapsize;
     public int[] getLeastNumbers(int[] arr, int k) {
         int[] res = new int[k];
         this.heapsize = arr.length;
-        this.heap = Arrays.copyOf(arr,arr.length);
+        this.heap = Arrays.copyOf(arr,arr.length);       
+        #自底向上建立整个堆，复杂度O(n)，需要知道所有元素
         for(int i=(heapsize-2)/2;i>=0;i--){
             buildDown(i);
         }
