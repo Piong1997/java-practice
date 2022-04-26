@@ -66,15 +66,15 @@ class Solution {
         int mid=low+(high-low)/2;
         if(low >= high)
             return;
-        else if(nums[mid]<min)
+        if(nums[mid]<min)
             min = nums[mid];
-        if(nums[low]<=nums[mid]){//左升序
-            if(nums[low]<min)
+        if(nums[low]<=nums[mid]){//左升序，最小值肯定在右边，或者就是左边第一个元素
+            if(nums[low]<min)//是左边第一个元素
                 min = nums[low];
-            splitArray(nums,mid+1,high);
+            splitArray(nums,mid+1,high);//在右边找
         }
         else{//右升序
-            splitArray(nums,low,mid);
+            splitArray(nums,low,mid);//右升序，最小值肯定在左边
         }
     }
 }
