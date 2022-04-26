@@ -28,7 +28,7 @@ class Solution {
                     low++;
             }
             int tmp = nums[index];
-            while(index<len && tmp==nums[index]){
+            while(index<len && tmp==nums[index]){//先防止越界，再防止重复，跳过相同的元素
                 index++;
             }
         }
