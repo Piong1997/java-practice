@@ -67,3 +67,25 @@ class Solution {
         nums[a] = tmp;
     }
 }
+
+//78. 子集
+class Solution {
+    List<List<Integer>> res;
+    int[] nums;
+    public List<List<Integer>> subsets(int[] nums) {
+        res = new ArrayList<>();
+        this.nums = nums;
+        dfs(0,new ArrayList<Integer>());
+        return res;
+    }
+    public void dfs(int k, List<Integer> tmpres){
+        if(k>=nums.length){
+            res.add(new ArrayList<>(tmpres));
+            return;
+        }
+        dfs(k+1,tmpres);
+        tmpres.add(nums[k]);
+        dfs(k+1,tmpres);
+        tmpres.remove(Integer.valueOf(nums[k]));//转化为Integer对象，会直接remove掉对应的值而不是下标
+    }
+}
