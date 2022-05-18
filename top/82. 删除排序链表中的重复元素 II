@@ -1,0 +1,23 @@
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        ListNode headPre = new ListNode();
+        headPre.next = head;
+        boolean deleteSelf = false;
+        for(ListNode p=head,pre=headPre;p!=null;){
+            if(p.next!=null && p.next.val==p.val){//判断下一个val时先确定下一个p不为空
+                p.next = p.next.next;
+                deleteSelf = true;
+            }
+            else if(deleteSelf){ //删除p本身
+                pre.next = pre.next.next;
+                p = pre.next; //重点，为p赋新值！！
+                deleteSelf = false;//重置标志
+            }
+            else{
+                p=p.next;
+                pre = pre.next;
+            }
+        }
+        return headPre.next;
+    }
+}
