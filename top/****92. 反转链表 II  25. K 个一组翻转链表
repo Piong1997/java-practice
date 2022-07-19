@@ -122,5 +122,37 @@ class Solution {
     }
 }
 
+//其他写法
+class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+        ListNode headPre = new ListNode();
+        headPre.next = head;
+        ListNode p=headPre,startPre=headPre, start=head;
+        int i=0;
+        while(p!=null){
+            if(i!=0 && i%k==0){
+                ListNode endNext = p.next;
+                reverseBetween(start,p);
+                startPre.next = p;
+                start.next = endNext;
+                p = start;
+                startPre = start;
+                start = start.next;
+            }
+            p = p.next;
+            i++;
+        }
+        return headPre.next;
+    }
+    public void reverseBetween(ListNode start, ListNode end){
+        ListNode p = start, next = p.next;
+        while(p!=end){
+            ListNode tmp = next.next;
+            next.next = p;
+            p = next;
+            next = tmp;
+        }
+    }
+}
 }
 
