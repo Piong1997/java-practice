@@ -43,7 +43,7 @@ class Solution {
         if(l>=r) return -1;//使用的是[l,r)左开右闭区间
         int mid = (l+r)/2;
         if(target==nums[mid]) return mid;
-        if(nums[l]<=nums[mid]){//左升序
+        if(nums[l]<nums[mid]){//左升序
             if(target>=nums[l]&&target<=nums[mid])//在左边范围内
                 return binarySearch(nums,target,l,mid);//搜索左边，范围为[l,mid)
             return binarySearch(nums,target,mid+1,r);//搜索右，范围为[mid+1,r)
