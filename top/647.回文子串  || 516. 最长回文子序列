@@ -27,13 +27,29 @@ class Solution {
         }
     }
 }
-或者用dp，dp[i][j]：表示区间范围[i,j] （注意是左闭右闭）的子串是否是回文子串，如果是dp[i][j]为true，否则为false。
-if (s[i] == s[j]) {
-    if (j - i <= 1) { // 情况一 和 情况二
-        dp[i][j] = true;
-    } else  // 情况三
-       dp[i][j] = dp[i + 1][j - 1];
-}else dp[i][j] = false;
+class Solution {
+    public String longestPalindrome(String s) {
+        int start=0,end=0;
+        boolean[][] dp = new boolean[s.length()][s.length()];
+        for(int i=0; i<s.length(); i++)
+            for(int j=0; j<=i; j++)
+                dp[i][j] = true;
+        for(int i=s.length()-2; i>=0 ; i--){
+            for(int j=i+1; j<s.length(); j++){
+                if(s.charAt(i)==s.charAt(j)){
+                    dp[i][j] = dp[i+1][j-1];
+                    if(dp[i][j]==true && end-start+1<j-i+1 ){
+                        start = i;
+                        end = j;
+                    }
+                }
+                else
+                    dp[i][j] = false;
+            }
+        }
+        return s.substring(start,end+1);
+    }
+}
 #516
 //1. 反转然后用最长公共子序列
 class Solution {
