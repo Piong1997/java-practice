@@ -1,29 +1,27 @@
 //mysolution：遍历每一个节点递归找其左子树和右子树的最大路径
 class Solution {
-   public int maxPathSum(TreeNode root) {
-        List<Integer> res = new ArrayList<>();
-        dfsMaxPathSum(root,res);
-        return Collections.max(res);
-    }
-    //找该节点的最大路径
-    public  int maxRoot(TreeNode root,TreeNode trueRoot){
-        if(root==null)
+    int res = Integer.MIN_VALUE;
+    public int maxPathSum(TreeNode root) {
+        if(root == null)
             return 0;
-        int left=maxRoot(root.left,trueRoot);
-        int right = maxRoot(root.right,trueRoot);
-        left=left>0?left:0;
-        right=right>0?right:0;
-        if(root==trueRoot)
-            return left+right+root.val;
-        return Math.max(left,right)+root.val;
+        int leftRes = rootSum(root.left);
+        leftRes = leftRes>0?leftRes:0;
+        int rightRes = rootSum(root.right);
+        rightRes = rightRes>0?rightRes:0;
+        res = Math.max(root.val+leftRes+rightRes,res);
+        maxPathSum(root.left);
+        maxPathSum(root.right);
+        return res;
     }
-    //节点遍历
-    public void dfsMaxPathSum(TreeNode root,List<Integer> res){
-        if (root == null) return;
-        res.add(maxRoot(root,root));
-        dfsMaxPathSum(root.left,res);
-        dfsMaxPathSum(root.right,res);
-    }
+    //计算某节点最多能为父节点贡献多少
+    public int rootSum(TreeNode root){
+        if(root == null)
+            return 0;
+        int leftSum = rootSum(root.left);
+        int rightSum = rootSum(root.right); 
+        //最多贡献自己+ xxx
+        return root.val+Math.max(Math.max(leftSum,rightSum),0);
+    } 
 }
 class Solution {
     int res = Integer.MIN_VALUE;
